@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { ScrollView, StyleSheet, View, Image } from "react-native"
+import React, { useState } from "react"
+import { ScrollView, StyleSheet, View } from "react-native"
 import * as Yup from "yup"
 import AppFormField from "./AppFormField"
 import ButtonSubmit from "./ButtonSubmit"
@@ -11,13 +11,13 @@ import AppText from "../../components/AppText"
 import Colors from "../../assets/Colors"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import axios from "axios"
-import * as ImagePicker from "expo-image-picker"
-import AppLogo from "../../components/AppLogo"
 import BaseUrl from "../../assets/BaseUrl"
 import AppImagePicker from "./AppImagePicker"
+import UploadProgress from "../../components/UploadProgress"
 
-export default function EventForm() {
-  const [done, setDone] = useState(false)
+export default function EventForm({ navigation }) {
+  const [visible, setVisible] = useState(false)
+  const [progressUpload, setProgressUpload] = useState(0)
 
   const dateDebut = (Date.now() + 1000 * 60 * 60 * 1).valueOf()
 
@@ -57,6 +57,13 @@ export default function EventForm() {
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <AppText style={styles.titre}>Créer un évènement</AppText>
+
+      <UploadProgress
+        visible={visible}
+        progress={progressUpload}
+        color={Colors.primary}
+      />
+
       <ScrollView style={{ width: "100%" }}>
         <AppForm
           initialValues={{
@@ -84,10 +91,14 @@ export default function EventForm() {
             formdata.append("dateDebut", values.dateDebut)
             formdata.append("dateFin", values.dateFin)
             try {
+              setProgressUpload(0)
+              setVisible(true)
               await axios.post(`${BaseUrl}/dzevents/v1/posts`, formdata, {
                 onUploadProgress: (progress) =>
-                  console.log(progress.loaded / progress.total),
+                  setProgressUpload(progress.loaded / progress.total),
               })
+              setVisible(false)
+              navigation.navigate("WelcomeScreen")
             } catch (e) {
               console.log(e)
             }

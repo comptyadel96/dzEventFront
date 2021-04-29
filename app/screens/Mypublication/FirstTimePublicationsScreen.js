@@ -21,7 +21,6 @@ export default function FirstTimePublicationsScreen({ navigation }) {
         `${BaseUrl}/dzevents/v1/firsttime?page=${page}&limit=5`
       )
       const first = await result.json()
-      console.log(first)
       setFirstTimes([...firstTimes, ...first])
     } catch (e) {
       console.log(e)
@@ -82,14 +81,14 @@ export default function FirstTimePublicationsScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    alignItems:'center'
+  container: {
+    flex: 1,
+    alignItems: "center",
   },
-  titre:{
-    fontSize:22,
-    color:Colors.gold,
-    fontWeight:'bold',
-    marginBottom:20
-  }
+  titre: {
+    fontSize: 22,
+    color: Colors.gold,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
 })

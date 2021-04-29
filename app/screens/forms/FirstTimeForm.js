@@ -1,16 +1,20 @@
 import axios from "axios"
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
 import * as Yup from "yup"
 import BaseUrl from "../../assets/BaseUrl"
 import Colors from "../../assets/Colors"
 import AppText from "../../components/AppText"
+import UploadProgress from "../../components/UploadProgress"
 import AppForm from "./AppForm"
 import AppFormField from "./AppFormField"
 import AppImagePicker from "./AppImagePicker"
 import ButtonSubmit from "./ButtonSubmit"
 
-export default function FirstTimeForm() {
+export default function FirstTimeForm({ navigation }) {
+  const [visible, setVisible] = useState(false)
+  const [progressUpload, setProgressUpload] = useState(0)
+
   const validationSchema = Yup.object().shape({
     titre: Yup.string()
       .min(6, "le titre doit contenir aumoins 6 lettres")
@@ -27,6 +31,11 @@ export default function FirstTimeForm() {
   return (
     <View style={{ alignItems: "center" }}>
       <AppText style={styles.title}>First Time</AppText>
+      <UploadProgress
+        visible={visible}
+        progress={progressUpload}
+        color={Colors.gold}
+      />
       <AppForm
         initialValues={{
           titre: "",
@@ -46,9 +55,14 @@ export default function FirstTimeForm() {
             name: values.firstTimePic,
           })
           try {
-            await axios.post(`${BaseUrl}/dzevents/v1/firsttime`, formdata,{
-              onUploadProgress:(progress)=>console.log(progress.loaded/progress.total)
+            setProgressUpload(0)
+            setVisible(true)
+            await axios.post(`${BaseUrl}/dzevents/v1/firsttime`, formdata, {
+              onUploadProgress: (progress) =>
+                setProgressUpload(progress.loaded / progress.total),
             })
+            setVisible(false)
+            navigation.navigate("WelcomeScreen")
           } catch (e) {
             console.log(e)
           }

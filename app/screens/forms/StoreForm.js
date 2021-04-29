@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
 import AppForm from "./AppForm"
 import AppFormField from "./AppFormField"
@@ -10,6 +10,7 @@ import axios from "axios"
 import BaseUrl from "../../assets/BaseUrl"
 import Colors from "../../assets/Colors"
 import { Fontisto } from "@expo/vector-icons"
+import UploadProgress from "../../components/UploadProgress"
 const validationSchema = Yup.object().shape({
   article: Yup.string()
     .min(5, "l'article doit contenir aumoins 5 charactéres")
@@ -20,19 +21,22 @@ const validationSchema = Yup.object().shape({
     .max(100)
     .required("vous devez spécifier le prix de l'article"),
   wilaya: Yup.string()
-    .min(2)
+    .min(2,'la wilaya doit contenir aumoins deux lettres où bien deux chiffres')
     .max(100)
     .required("veuillez indiquer votre wilaya"),
   storePics: Yup.array().max(5),
 })
 
-export default function StoreForm() {
+export default function StoreForm({ navigation }) {
+  const [visible, setVisible] = useState(false)
+  const [progressUpload, setProgressUpload] = useState(0)
   return (
     <View style={styles.container}>
       <AppText style={styles.titre}>
         <Fontisto name="shopping-bag-1" size={38} color={Colors.secondary} />{" "}
         Vendre un article
       </AppText>
+      <UploadProgress visible={visible} progress={progressUpload}/>
       <AppForm
         initialValues={{ article: "", prix: "", wilaya: "", storePics: [] }}
         onSubmit={async (values) => {
@@ -49,11 +53,17 @@ export default function StoreForm() {
           formdata.append("prix", values.prix)
           formdata.append("wilaya", values.wilaya)
           try {
+            setProgressUpload(0)
+            setVisible(true)
             await axios.post(`${BaseUrl}/dzevents/v1/store`, formdata, {
-              onUploadProgress: (progress) => console.log((progress.loaded/progress.total)*100+'%'),
+              onUploadProgress: (progress) =>
+                setProgressUpload(progress.loaded / progress.total),
             })
+            setVisible(false)
+            navigation.navigate("WelcomeScreen")
           } catch (e) {
             console.log(e)
+            alert("une erreure est survenue veuillez réessayer")
           }
         }}
         validationSchema={validationSchema}>

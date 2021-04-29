@@ -12,6 +12,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Colors from "../../assets/Colors"
 import BaseUrl from "../../assets/BaseUrl"
 import LoadingAnim from "../../components/LoadingAnim"
+import { event } from "react-native-reanimated"
 
 export default function EventPublicationsScreen({ show = true }) {
   const navigation = useNavigation()
@@ -19,24 +20,24 @@ export default function EventPublicationsScreen({ show = true }) {
   const [events, setEvent] = useState([])
   const [events2, setEvent2] = useState([])
   const [page, setPage] = useState(1)
-  const [refresh, setRefrech] = useState(false)
+  const [refresh] = useState(false)
   const [item, setItem] = useState("")
   const [searchEvent, setSearchEvent] = useState("")
   const [hasSearched, setHasSearched] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  // fonction pour fetcher la data depuis le back-end (remplacer 192.168.1.38 par votre adressIp) nb:localhost ne marchera pas
+  // fonction pour fetcher la data depuis le back-end (remplacer 192.168.1.38 par votre adresse IP) nb:localhost ne marchera pas
   const fetchEvent = async () => {
     try {
       setLoading(true)
       const result = await fetch(
         `${BaseUrl}/dzevents/v1/posts?page=${page}&limit=5&categorie=${item}`
       )
-      setLoading(false)
+
       const event = await result.json()
 
       setEvent([...events, ...event])
-
+      setLoading(false)
       setHasSearched(false)
     } catch (e) {
       console.log(e)
@@ -151,7 +152,10 @@ export default function EventPublicationsScreen({ show = true }) {
         </View>
       )}
 
-      <LoadingAnim visible={loading} source={require("../../assets/animations/calendar.json")} />
+      <LoadingAnim
+        visible={loading}
+        source={require("../../assets/animations/calendar.json")}
+      />
 
       {events.length && !hasSearched && !searchEvent ? (
         <FlatList
@@ -168,7 +172,6 @@ export default function EventPublicationsScreen({ show = true }) {
               // status={item.status}
               createdAt={moment(item.createdAt).fromNow()}
               onPress={() => {
-                console.log(item._id)
                 navigation.navigate("EventDetails", {
                   _id: item._id,
                   owner: item.owner,

@@ -69,7 +69,7 @@ export default function WelcomeScreen({ navigation }) {
             />
           </View>
         </ScrollView>
-       
+
         <AppText
           style={{
             color: Colors.grey,
@@ -90,9 +90,7 @@ export default function WelcomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "flex-start",
     alignItems: "center",
-  
   },
   grandTitre: {
     position: "absolute",
@@ -132,6 +130,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 0,
     paddingTop: 0,
-    
+    width: "100%",
   },
 })

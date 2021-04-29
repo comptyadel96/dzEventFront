@@ -31,7 +31,7 @@ export default function EventDetailScreen({ route, navigation }) {
             <Image
               source={{ uri: `${event.image}` }}
               style={styles.image}
-              resizeMode="contain"
+              resizeMode="cover"
             />
           </View>
         ) : (
@@ -39,7 +39,7 @@ export default function EventDetailScreen({ route, navigation }) {
             <Image
               source={require("../../assets/event4.jpg")}
               style={styles.image}
-              resizeMode="contain"
+              resizeMode="cover"
             />
           </View>
         )}
