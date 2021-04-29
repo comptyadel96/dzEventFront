@@ -65,6 +65,8 @@ export default function FirstTimeForm({ navigation }) {
             navigation.navigate("WelcomeScreen")
           } catch (e) {
             console.log(e)
+            alert("une erreure est survenue veuillez réessayer")
+            navigation.navigate("WelcomeScreen")
           }
         }}>
         <AppImagePicker name="firstTimePic" />

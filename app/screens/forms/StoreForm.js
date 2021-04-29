@@ -64,6 +64,7 @@ export default function StoreForm({ navigation }) {
           } catch (e) {
             console.log(e)
             alert("une erreure est survenue veuillez réessayer")
+              navigation.navigate("WelcomeScreen")
           }
         }}
         validationSchema={validationSchema}>

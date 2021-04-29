@@ -101,6 +101,8 @@ export default function EventForm({ navigation }) {
               navigation.navigate("WelcomeScreen")
             } catch (e) {
               console.log(e)
+              alert("une erreure est survenue veuillez réessayer")
+              navigation.navigate("WelcomeScreen")
             }
           }}
           validationSchema={validationSchema}>
