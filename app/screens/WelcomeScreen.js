@@ -6,11 +6,12 @@ import Colors from "../assets/Colors"
 import AppScreen from "../components/AppScreen"
 import AppText from "../components/AppText"
 import EventPublicationsScreen from "./Mypublication/EventPublicationsScreen"
+import LoadingAnim from "../components/LoadingAnim"
 
 export default function WelcomeScreen({ navigation }) {
   return (
     <AppScreen style={{ backgroundColor: "#F6F8F9", flex: 1 }}>
-      <AppText style={styles.grandTitre}>DZ EVENTS</AppText>
+      <AppText style={styles.grandTitre}>MOUNI</AppText>
       <View style={styles.container}>
         <ScrollView
           horizontal
@@ -68,29 +69,15 @@ export default function WelcomeScreen({ navigation }) {
             />
           </View>
         </ScrollView>
-
-        <View
+       
+        <AppText
           style={{
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 15,
-            
+            color: Colors.grey,
+            fontSize: 18,
+            marginVertical: 5,
           }}>
-          <View style={styles.pubs}>
-            <AppText style={{ fontSize: 50, marginHorizontal: 10 }}>
-              Publicité ici ....
-            </AppText>
-          </View>
-
-          <AppText
-            style={{
-              color: Colors.grey,
-              fontSize: 18,
-              marginHorizontal: 5,
-            }}>
-            Evènements réçamment publié ....
-          </AppText>
-        </View>
+          Evènements réçamment publié ....
+        </AppText>
 
         <View style={styles.events}>
           <EventPublicationsScreen show={false} />
@@ -103,8 +90,9 @@ export default function WelcomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
+    // justifyContent: "flex-start",
     alignItems: "center",
+  
   },
   grandTitre: {
     position: "absolute",
@@ -134,12 +122,7 @@ const styles = StyleSheet.create({
     paddingRight: 0,
     borderRadius: 20,
   },
-  pubs: {
-    height: 200,
-    backgroundColor: "lightgrey",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   textButton: {
     color: "black",
     fontSize: 13,
@@ -149,7 +132,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 0,
     paddingTop: 0,
-    maxHeight: 350,
-    // backgroundColor: "black",
+    
   },
 })

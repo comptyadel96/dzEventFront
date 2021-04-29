@@ -50,7 +50,7 @@ export default function StoreForm() {
           formdata.append("wilaya", values.wilaya)
           try {
             await axios.post(`${BaseUrl}/dzevents/v1/store`, formdata, {
-              onUploadProgress: (progress) => console.log(progress),
+              onUploadProgress: (progress) => console.log((progress.loaded/progress.total)*100+'%'),
             })
           } catch (e) {
             console.log(e)

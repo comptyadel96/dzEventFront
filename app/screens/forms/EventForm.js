@@ -17,7 +17,7 @@ import BaseUrl from "../../assets/BaseUrl"
 import AppImagePicker from "./AppImagePicker"
 
 export default function EventForm() {
-  const [imageUri, setImageUri] = useState()
+  const [done, setDone] = useState(false)
 
   const dateDebut = (Date.now() + 1000 * 60 * 60 * 1).valueOf()
 
@@ -53,35 +53,7 @@ export default function EventForm() {
       )
       .required("vous devez spécifier une date de fin pour cet évènement"),
   })
-  // avoir la permission
-  const getPermission = async () => {
-    const result = await ImagePicker.requestCameraPermissionsAsync()
-    if (!result.granted) {
-      alert(
-        "nous avons besoin d'acceder a votre gallerie pour telecharger les images"
-      )
-    }
-  }
-  // select an image
-  const handlePickImage = async () => {
-    try {
-      const img = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        quality: 0.7,
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      })
-      if (!img.cancelled) {
-        Platform.OS === "android"
-          ? setImageUri(img.uri)
-          : setImageUri(img.uri.replace("file://", ""))
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  useEffect(() => {
-    getPermission()
-  }, [])
+
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <AppText style={styles.titre}>Créer un évènement</AppText>
@@ -112,7 +84,10 @@ export default function EventForm() {
             formdata.append("dateDebut", values.dateDebut)
             formdata.append("dateFin", values.dateFin)
             try {
-            await axios.post(`${BaseUrl}/dzevents/v1/posts`,formdata,{onUploadProgress:(progress)=>console.log(progress)})
+              await axios.post(`${BaseUrl}/dzevents/v1/posts`, formdata, {
+                onUploadProgress: (progress) =>
+                  console.log(progress.loaded / progress.total),
+              })
             } catch (e) {
               console.log(e)
             }

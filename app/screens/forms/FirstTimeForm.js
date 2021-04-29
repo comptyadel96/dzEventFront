@@ -46,7 +46,9 @@ export default function FirstTimeForm() {
             name: values.firstTimePic,
           })
           try {
-            await axios.post(`${BaseUrl}/dzevents/v1/firsttime`, formdata)
+            await axios.post(`${BaseUrl}/dzevents/v1/firsttime`, formdata,{
+              onUploadProgress:(progress)=>console.log(progress.loaded/progress.total)
+            })
           } catch (e) {
             console.log(e)
           }

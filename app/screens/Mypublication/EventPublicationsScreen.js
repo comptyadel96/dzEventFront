@@ -150,7 +150,9 @@ export default function EventPublicationsScreen({ show = true }) {
             ))}
         </View>
       )}
-      <LoadingAnim visible={loading} />
+
+      <LoadingAnim visible={loading} source={require("../../assets/animations/calendar.json")} />
+
       {events.length && !hasSearched && !searchEvent ? (
         <FlatList
           data={events}

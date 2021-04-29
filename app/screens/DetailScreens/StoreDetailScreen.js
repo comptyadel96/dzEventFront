@@ -16,6 +16,7 @@ import momentConfig from "../../config-momentJs/MomentJs"
 import AppLogo from "../../components/AppLogo"
 import AppButton from "../../components/AppButton"
 import Colors from "../../assets/Colors"
+import BaseUrl from "../../assets/BaseUrl"
 
 export default function StoreDetailScreen({ route }) {
   const abortControll = new AbortController()
@@ -27,7 +28,7 @@ export default function StoreDetailScreen({ route }) {
   const fetchArticles = async () => {
     try {
       const articleUrl = await fetch(
-        `http://192.168.1.38:3900/dzevents/v1/store/${_id}`,
+        `${BaseUrl}/dzevents/v1/store/${_id}`,
         { signal: abortControll.signal }
       )
       const result = await articleUrl.json()
@@ -249,8 +250,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.textInput,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    borderBottomLeftRadius: 75,
-    borderBottomRightRadius: 70,
+    borderBottomLeftRadius: 60,
+    borderBottomRightRadius: 60,
   },
   infos: {
     marginVertical: 8,
