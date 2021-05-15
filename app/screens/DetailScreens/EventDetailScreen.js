@@ -6,8 +6,8 @@ import momentConfig from "../../config-momentJs/MomentJs"
 import Colors from "../../assets/Colors"
 import BaseUrl from "../../assets/BaseUrl"
 
-export default function EventDetailScreen({ route, navigation }) {
-  const { _id, owner } = route.params
+export default function EventDetailScreen({ route }) {
+  const { _id, owner} = route.params
 
   moment.locale("Fr")
 
@@ -99,7 +99,7 @@ export default function EventDetailScreen({ route, navigation }) {
             </View>
           )}
 
-          {/* <AppText>{event.status} </AppText> */}
+         
 
           {event.description ? (
             <View style={styles.description}>
@@ -127,7 +127,7 @@ export default function EventDetailScreen({ route, navigation }) {
         </View>
         <View style={styles.publisher}>
           <AppText style={{ color: Colors.primary }}>Publier par:</AppText>
-          {/* <Text style={styles.text}>{owner.name}</Text> */}
+          <Text style={styles.text}>{owner.name}</Text>
         </View>
       </View>
     </ScrollView>

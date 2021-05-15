@@ -1,76 +1,69 @@
 import React, { useState, useEffect } from "react"
-import {
-  Button,
-  StyleSheet,
-  View,
-  Image,
-  ScrollView,
-  Dimensions,
-} from "react-native"
-import AppTextInput from "./app/components/AppTextInput"
-import MapView, { Marker } from "react-native-maps"
-import AppLogo from "./app/components/AppLogo"
+import { FlatList, StyleSheet, Text, View } from "react-native"
+import FirstTimeCard from "./app/components/Cards/FirstTimeCard"
+import CacheLayer from "./app/util/CacheLayer"
+import moment from "moment"
 import axios from "axios"
-import * as Location from "expo-location"
-import { LocationAccuracy } from "expo-location"
+import { useNetInfo } from "@react-native-community/netinfo"
 
 export default function Test() {
-  const [latitudes, setLatitudes] = useState(0)
-  const [longitudes, setLongitudes] = useState(0)
-  const getPermission = async () => {
-    const location = await Location.requestPermissionsAsync()
-    if (!location.granted) {
-      alert(
-        "vous devez nous donner la permission d'acceder à votre position afin d'utiliser le service de localisation  "
+  const networkInfos = useNetInfo()
+  const [firstTimes, setFirstTimes] = useState([])
+  const [page] = useState(1)
+
+  const fetchFirstTime = async () => {
+    try {
+      const first = await axios(
+        `${BaseUrl}/dzevents/v1/firsttime?page=${page}&limit=10`
       )
+      // si l'appel à notre backend ne contient aucune erreure alors on store la data dans le cache de l'appareil
+      if (first.status == 200) {
+        await CacheLayer.store("FirstTimeData", first.data)
+        setFirstTimes([...firstTimes, ...first.data])
+      }
+    } catch (e) {
+      console.log(e)
     }
-    const {
-      coords: { latitude, longitude },
-    } = await Location.getCurrentPositionAsync({
-      accuracy: LocationAccuracy.BestForNavigation,
-    })
-    setLatitudes(latitude)
-    setLongitudes(longitude)
   }
+
+  const displayCachedData = async () => {
+    try {
+      if (
+        networkInfos.isInternetReachable === false &&
+        networkInfos.type !== "unknown"
+      ) {
+        alert('pas de connexion')
+        const cachedData = await CacheLayer.getItem("FirstTimeData")
+        setFirstTimes([...cachedData])
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   useEffect(() => {
-    getPermission()
-    console.log(latitudes, longitudes)
+    fetchFirstTime()
+    displayCachedData()
+    console.log(networkInfos.isConnected);
   }, [])
 
   return (
-    <>
-      <MapView
-        style={styles.map}
-        region={{
-          latitude: latitudes,
-          longitude: longitudes,
-          latitudeDelta: 0.14679076282407522,
-          longitudeDelta: 0.09999979287385985,
-        }}
-        showsMyLocationButton={true}
-        loadingEnabled
-
-        onRegionChange={(region) => console.log(region)}
-        provider="google">
-        <Marker
-          coordinate={{
-            latitude: latitudes,
-            longitude: longitudes,
-          }}
-          title="votre position actuelle"
-        />
-      </MapView>
-    </>
+    <View>
+      <FlatList
+        data={firstTimes}
+        keyExtractor={(first) => first._id.toString()}
+        renderItem={({ item }) => (
+          <FirstTimeCard
+            titre={item.titre}
+            imageUri={item.photo}
+            wilaya={item.wilaya}
+            createdAt={moment(item.createdAt).fromNow()}
+          />
+        )}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  map: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
-  },
-})
+const styles = StyleSheet.create({})

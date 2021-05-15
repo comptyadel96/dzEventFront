@@ -176,7 +176,7 @@ export default function StoreDetailScreen({ route }) {
                 backColor={Colors.white}
               />
               <AppText style={{ marginLeft: 5, color: Colors.primary }}>
-                {/* {owner.name}  */}
+                {owner.name} 
               </AppText>
             </View>
 
@@ -193,7 +193,7 @@ export default function StoreDetailScreen({ route }) {
                 backColor={Colors.white}
               />
               <AppText style={{ marginLeft: 5, color: Colors.primary }}>
-                {/* {owner.email} */}
+                {owner.email}
               </AppText>
             </View>
 

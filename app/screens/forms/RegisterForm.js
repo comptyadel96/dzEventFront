@@ -10,6 +10,7 @@ import axios from "axios"
 import AppLogo from "../../components/AppLogo"
 require("yup-password")(Yup)
 // ici on met en relation la librairie Yup avec la librairie yup-password afin de pouvoir les intégrer dans le méme et unique Shéma de validation
+import BaseUrl from "../../assets/BaseUrl"
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -36,7 +37,7 @@ const validationSchema = Yup.object().shape({
 
   confirmPassword: Yup.string().oneOf(
     [Yup.ref("password"), null],
-    "les mots de passe doivent étre identique"
+    "les mots de passe doivent étre identiques"
   ),
 
   phoneNumber: Yup.string()
@@ -106,24 +107,24 @@ export default function RegisterForm() {
             formdata.append("phoneNumber", values.phoneNumber)
             formdata.append("email", values.email)
             try {
-             const data= await axios.post(
-                `http://192.168.1.38:3900/dzevents/v1/users`,
+              const data = await axios.post(
+                `${BaseUrl}/dzevents/v1/users`,
                 formdata
               )
               console.log(data.headers)
               return data
-             
             } catch (e) {
               console.log(e)
             }
           }}
           validationSchema={validationSchema}>
+            
           {imageUri && (
             <Image source={{ uri: imageUri }} style={styles.image} />
           )}
           {!imageUri && (
             <AppLogo
-              logo='camera'
+              logo="camera"
               onPress={handlePickImage}
               size={100}
               backColor={Colors.textInput}
@@ -131,41 +132,41 @@ export default function RegisterForm() {
             />
           )}
           <AppFormField
-            autoCapitalize='none'
-            icon='star-face'
-            placeholder='entrer votre nom...'
+            autoCapitalize="none"
+            icon="star-face"
+            placeholder="entrer votre nom..."
             style={styles.input}
-            name='name'
+            name="name"
           />
           <AppFormField
-            autoCapitalize='none'
-            icon='email'
-            placeholder='entrer votre email'
-            keyboardType='email-address'
+            autoCapitalize="none"
+            icon="email"
+            placeholder="entrer votre email"
+            keyboardType="email-address"
             style={styles.input}
-            name='email'
+            name="email"
           />
           <AppFormField
-            autoCapitalize='none'
-            icon='key-variant'
-            placeholder='entrer votre mot de passe'
+            autoCapitalize="none"
+            icon="key-variant"
+            placeholder="entrer votre mot de passe"
             secureTextEntry
             style={styles.input}
-            name='password'
+            name="password"
           />
           <AppFormField
-            placeholder='confirmer le mot de passe'
-            name='confirmPassword'
-            icon='key-variant'
+            placeholder="confirmer le mot de passe"
+            name="confirmPassword"
+            icon="key-variant"
             secureTextEntry
             style={styles.input}
           />
           <AppFormField
-            icon='cellphone-iphone'
-            placeholder='num de Tél proffessionnel'
-            keyboardType='numeric'
+            icon="cellphone-iphone"
+            placeholder="num de Tél proffessionnel"
+            keyboardType="numeric"
             style={styles.input}
-            name='phoneNumber'
+            name="phoneNumber"
           />
           <ButtonSubmit title="S'inscrire" />
         </AppForm>

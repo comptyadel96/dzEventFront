@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { StyleSheet, FlatList, View, TouchableHighlight } from "react-native"
+import { StyleSheet, FlatList, View } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import StoreCard from "../../components/Cards/StoreCard"
 import moment from "moment"
@@ -7,7 +7,6 @@ import momentConfig from "../../config-momentJs/MomentJs" //on l'importe ici pou
 import AppTextInput from "../../components/AppTextInput"
 import AppText from "../../components/AppText"
 import { Fontisto } from "@expo/vector-icons"
-import { Entypo } from "@expo/vector-icons"
 import BaseUrl from "../../assets/BaseUrl"
 
 export default function StorePublicationScreen() {
@@ -16,7 +15,7 @@ export default function StorePublicationScreen() {
   const [article, setArticle] = useState([])
   const [article2, setArticle2] = useState([])
   const [page, setPage] = useState(1)
-  const [refresh, setRefrech] = useState(false)
+  const [refresh] = useState(false)
   const [searchItem, setSearchItem] = useState("")
   const [hasSearched, setHasSearched] = useState(false)
 
@@ -128,7 +127,7 @@ export default function StorePublicationScreen() {
                 onPress={() =>
                   navigation.navigate("DetailsArticles", {
                     _id: item._id,
-                    owner: item.owner,
+                    // owner: item.owner,
                   })
                 }
               />

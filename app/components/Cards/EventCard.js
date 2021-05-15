@@ -7,11 +7,9 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native"
-
 import AppText from "../AppText"
 import Colors from "../../assets/Colors"
-import momentConfig from "../../config-momentJs/MomentJs" //on l'importe ici pour la configuration de la langue francaise
-import moment from "moment"
+
 export default function EventCard({
   titre,
   categorie,

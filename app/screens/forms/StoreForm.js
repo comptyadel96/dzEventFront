@@ -21,7 +21,10 @@ const validationSchema = Yup.object().shape({
     .max(100)
     .required("vous devez spécifier le prix de l'article"),
   wilaya: Yup.string()
-    .min(2,'la wilaya doit contenir aumoins deux lettres où bien deux chiffres')
+    .min(
+      2,
+      "la wilaya doit contenir aumoins deux lettres où bien deux chiffres"
+    )
     .max(100)
     .required("veuillez indiquer votre wilaya"),
   storePics: Yup.array().max(5),
@@ -36,7 +39,7 @@ export default function StoreForm({ navigation }) {
         <Fontisto name="shopping-bag-1" size={38} color={Colors.secondary} />{" "}
         Vendre un article
       </AppText>
-      <UploadProgress visible={visible} progress={progressUpload}/>
+      <UploadProgress visible={visible} progress={progressUpload} />
       <AppForm
         initialValues={{ article: "", prix: "", wilaya: "", storePics: [] }}
         onSubmit={async (values) => {
@@ -64,7 +67,7 @@ export default function StoreForm({ navigation }) {
           } catch (e) {
             console.log(e)
             alert("une erreure est survenue veuillez réessayer")
-              navigation.navigate("WelcomeScreen")
+            navigation.navigate("WelcomeScreen")
           }
         }}
         validationSchema={validationSchema}>

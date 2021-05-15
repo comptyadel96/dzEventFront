@@ -14,12 +14,15 @@ import axios from "axios"
 import BaseUrl from "../../assets/BaseUrl"
 import AppImagePicker from "./AppImagePicker"
 import UploadProgress from "../../components/UploadProgress"
+import AppFormMap from "./AppFormMap"
+import AppButton from "../../components/AppButton"
 
 export default function EventForm({ navigation }) {
   const [visible, setVisible] = useState(false)
   const [progressUpload, setProgressUpload] = useState(0)
-
+  const [showMap, setShowMap] = useState(false)
   const dateDebut = (Date.now() + 1000 * 60 * 60 * 1).valueOf()
+ 
 
   const validationSchema = Yup.object().shape({
     titre: Yup.string()
@@ -75,6 +78,7 @@ export default function EventForm({ navigation }) {
             dateDebut: new Date(Date.now() + 1000 * 60 * 60 * 1),
             dateFin: new Date(Date.now() + 1000 * 60 * 60 * 2),
             eventPic: null,
+            geometry: [],
           }}
           onSubmit={async (values) => {
             let formdata = new FormData()
@@ -90,12 +94,15 @@ export default function EventForm({ navigation }) {
             formdata.append("description", values.description)
             formdata.append("dateDebut", values.dateDebut)
             formdata.append("dateFin", values.dateFin)
+            // formdata.append("geometry",(values.geometry))
+            console.log(values)
             try {
               setProgressUpload(0)
               setVisible(true)
               await axios.post(`${BaseUrl}/dzevents/v1/posts`, formdata, {
                 onUploadProgress: (progress) =>
                   setProgressUpload(progress.loaded / progress.total),
+                  // headers:{"x-auth-token":""}
               })
               setVisible(false)
               navigation.navigate("WelcomeScreen")
@@ -106,6 +113,12 @@ export default function EventForm({ navigation }) {
             }
           }}
           validationSchema={validationSchema}>
+          {/* <AppFormMap
+            name="geometry"
+            showMap={showMap}
+            onPress={() => setShowMap(false)}
+          /> */}
+
           <AppImagePicker name="eventPic" />
           <AppFormField
             name="titre"
@@ -164,6 +177,15 @@ export default function EventForm({ navigation }) {
               <DatePicker title="Au" name="dateFin" title2=" à " />
             </View>
           </View>
+
+          {/* <View>
+            <AppButton
+              title="ajouter l'évènement sur google maps ?"
+              onPress={() => setShowMap(true)}
+              style={styles.mapButton}
+            />
+          </View> */}
+
           <View
             style={{
               height: 200,
@@ -200,5 +222,11 @@ const styles = StyleSheet.create({
     width: 200,
     borderRadius: 20,
     alignSelf: "center",
+  },
+  mapButton: {
+    width: "auto",
+    height: 35,
+    marginHorizontal: 5,
+    backgroundColor: Colors.pistach,
   },
 })

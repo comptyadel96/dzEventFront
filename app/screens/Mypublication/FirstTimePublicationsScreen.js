@@ -2,26 +2,30 @@ import React, { useState, useEffect } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
 import moment from "moment"
 import momentConfig from "../../config-momentJs/MomentJs" //on l'importe ici pour la configuration de la langue francaise
-
-import AppScreen from "../../components/AppScreen"
 import FirstTimeCard from "../../components/Cards/FirstTimeCard"
 import BaseUrl from "../../assets/BaseUrl"
-import { ScrollView } from "react-native-gesture-handler"
+import axios from "axios"
 import AppText from "../../components/AppText"
 import Colors from "../../assets/Colors"
+import CacheLayer from "../../util/CacheLayer"
+import { useNetInfo } from "@react-native-community/netinfo"
 
 export default function FirstTimePublicationsScreen({ navigation }) {
+  const networkInfos = useNetInfo()
   const [firstTimes, setFirstTimes] = useState([])
   const [page, setPage] = useState(1)
   const [refresh] = useState(false)
 
   const fetchFirstTime = async () => {
     try {
-      const result = await fetch(
-        `${BaseUrl}/dzevents/v1/firsttime?page=${page}&limit=5`
+      const first = await axios(
+        `${BaseUrl}/dzevents/v1/firsttime?page=${page}&limit=10`
       )
-      const first = await result.json()
-      setFirstTimes([...firstTimes, ...first])
+      // si l'appel à notre backend ne contient aucune erreure alors on store la data dans le cache de l'appareil
+      if (first.status === 200) {
+        await CacheLayer.store("FirstTimeData", first.data)
+        setFirstTimes([...firstTimes, ...first.data])
+      } 
     } catch (e) {
       console.log(e)
     }
@@ -29,6 +33,8 @@ export default function FirstTimePublicationsScreen({ navigation }) {
 
   useEffect(() => {
     fetchFirstTime()
+    console.log(page)
+    console.log(networkInfos.isConnected)
   }, [page])
 
   const fetchMoreData = () => {
@@ -37,12 +43,13 @@ export default function FirstTimePublicationsScreen({ navigation }) {
   const handleRefresh = async () => {
     setFirstTimes([])
     try {
-      const result = await fetch(
-        `${BaseUrl}/dzevents/v1/firsttime?page=${page}&limit=5`
+      const first = await axios.get(
+        `${BaseUrl}/dzevents/v1/firsttime?page=${page}&limit=10`
       )
-      setPage(1)
-      const first = await result.json()
-      setFirstTimes(first)
+      if (first.status == 200) {
+        setPage(1)
+        setFirstTimes(first.data)
+      }
     } catch (e) {
       console.log(e)
     }

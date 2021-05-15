@@ -18,7 +18,7 @@ export default function EventImages({ name }) {
     const result = await ImagePicker.requestCameraPermissionsAsync()
     if (!result.granted) {
       alert(
-        "nous avons besoin d'acceder a votre gallerie pour telecharger les images"
+        "nous avons besoin d'accéder a votre gallerie pour télécharger les images,vous pourriez toujours modifier vos préférences dans les paramétres du téléphone pour autoriser l'application à accéder à votre position "
       )
     }
   }
@@ -90,9 +90,9 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
-    marginHorizontal:15,
-    width:'auto',
-    justifyContent:'center'
+    marginHorizontal: 15,
+    width: "auto",
+    justifyContent: "center",
   },
   image: {
     height: 120,

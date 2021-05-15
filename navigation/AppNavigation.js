@@ -20,6 +20,8 @@ import StoreForm from "../app/screens/forms/StoreForm"
 import RegisterForm from "../app/screens/forms/RegisterForm"
 import FirstTimeForm from "../app/screens/forms/FirstTimeForm"
 import Calendars from "../app/screens/Calendars"
+import RegisterOrLogin from "../app/screens/authentification/RegisterOrLogin"
+import ClientEventsPubli from "../app/screens/Client/ClientEventsPubli"
 
 export default function AppNavigation() {
   const { Navigator, Screen } = createStackNavigator()
@@ -127,6 +129,11 @@ export default function AppNavigation() {
           component={ViewEventImage}
           options={{ headerShown: false }}
         />
+        <Screen
+          name="ClientEventsPubli"
+          component={ClientEventsPubli}
+          options={{ headerShown: false }}
+        />
 
         {/* forms */}
         <Screen
@@ -148,6 +155,11 @@ export default function AppNavigation() {
         <Screen
           name="FirstTimeForm"
           component={FirstTimeForm}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="RegisterOrLogin"
+          component={RegisterOrLogin}
           options={{ headerShown: false }}
         />
       </Navigator>

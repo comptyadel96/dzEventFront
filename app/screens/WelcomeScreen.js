@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react"
-import { ScrollView, StyleSheet, Text, View } from "react-native"
-
+import React from "react"
+import { ScrollView, StyleSheet, View } from "react-native"
 import AppButton from "../components/AppButton"
 import Colors from "../assets/Colors"
 import AppScreen from "../components/AppScreen"
 import AppText from "../components/AppText"
 import EventPublicationsScreen from "./Mypublication/EventPublicationsScreen"
-import LoadingAnim from "../components/LoadingAnim"
 
 export default function WelcomeScreen({ navigation }) {
   return (

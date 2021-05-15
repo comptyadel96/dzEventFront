@@ -1,32 +1,20 @@
 import React, { useState, useEffect } from "react"
 import { StyleSheet, Text, View } from "react-native"
-
+import NetInfo from "@react-native-community/netinfo";
 
 
 export default function Test2() {
-  const [events,setEvents]=useState([])
-
-  const fetchEvent = async () => {
-    try {
-      const result = await fetch(
-        `http://192.168.1.38:3900/dzevents/v1/posts`
-      )
-      const event = await result.json()
-      setEvents(event)
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  const unsubscribe = NetInfo.addEventListener(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    console.log("is internet reacheable?",state.isInternetReachable)
+  });
+  
+  // Unsubscribe
+  
   useEffect(() => {
-    fetchEvent()
-  }, [])
-// const eventsCalendar=events.map(events=>(
-//   {start:events.dateDebut,
-//   end:events.dateFin,
-//   title:events.titre
-//   }
-// ))
-// console.log(eventsCalendar);
+    unsubscribe();
+  })
 
   return (
     <View>

@@ -12,7 +12,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Colors from "../../assets/Colors"
 import BaseUrl from "../../assets/BaseUrl"
 import LoadingAnim from "../../components/LoadingAnim"
-import { event } from "react-native-reanimated"
 
 export default function EventPublicationsScreen({ show = true }) {
   const navigation = useNavigation()
@@ -33,9 +32,7 @@ export default function EventPublicationsScreen({ show = true }) {
       const result = await fetch(
         `${BaseUrl}/dzevents/v1/posts?page=${page}&limit=5&categorie=${item}`
       )
-
       const event = await result.json()
-
       setEvent([...events, ...event])
       setLoading(false)
       setHasSearched(false)
@@ -159,6 +156,7 @@ export default function EventPublicationsScreen({ show = true }) {
 
       {events.length && !hasSearched && !searchEvent ? (
         <FlatList
+          style={{ zIndex: 1 }}
           data={events}
           keyExtractor={(event) => event._id.toString()}
           renderItem={({ item }) => (
