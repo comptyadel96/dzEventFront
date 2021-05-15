@@ -7,11 +7,8 @@ import BaseUrl from "../../assets/BaseUrl"
 import axios from "axios"
 import AppText from "../../components/AppText"
 import Colors from "../../assets/Colors"
-import CacheLayer from "../../util/CacheLayer"
-import { useNetInfo } from "@react-native-community/netinfo"
 
 export default function FirstTimePublicationsScreen({ navigation }) {
-  const networkInfos = useNetInfo()
   const [firstTimes, setFirstTimes] = useState([])
   const [page, setPage] = useState(1)
   const [refresh] = useState(false)
@@ -21,11 +18,7 @@ export default function FirstTimePublicationsScreen({ navigation }) {
       const first = await axios(
         `${BaseUrl}/dzevents/v1/firsttime?page=${page}&limit=10`
       )
-      // si l'appel à notre backend ne contient aucune erreure alors on store la data dans le cache de l'appareil
-      if (first.status === 200) {
-        await CacheLayer.store("FirstTimeData", first.data)
-        setFirstTimes([...firstTimes, ...first.data])
-      } 
+      setFirstTimes([...firstTimes, ...first.data])
     } catch (e) {
       console.log(e)
     }
@@ -33,8 +26,6 @@ export default function FirstTimePublicationsScreen({ navigation }) {
 
   useEffect(() => {
     fetchFirstTime()
-    console.log(page)
-    console.log(networkInfos.isConnected)
   }, [page])
 
   const fetchMoreData = () => {
@@ -46,10 +37,8 @@ export default function FirstTimePublicationsScreen({ navigation }) {
       const first = await axios.get(
         `${BaseUrl}/dzevents/v1/firsttime?page=${page}&limit=10`
       )
-      if (first.status == 200) {
-        setPage(1)
-        setFirstTimes(first.data)
-      }
+      setPage(1)
+      setFirstTimes(first.data)
     } catch (e) {
       console.log(e)
     }
@@ -64,17 +53,18 @@ export default function FirstTimePublicationsScreen({ navigation }) {
         renderItem={({ item }) => (
           <FirstTimeCard
             titre={item.titre}
+            owner={item.owner}
             imageUri={item.photo}
             wilaya={item.wilaya}
             createdAt={moment(item.createdAt).fromNow()}
-            // owner={item.owner.name}
-            onPress={() =>
+            onPress={() => {
               navigation.navigate("FirstDetailsPublications", {
                 _id: item._id,
-                // owner: item.owner,
+                owner: item.owner,
                 photo: item.photo,
               })
-            }
+              console.log(item.owner)
+            }}
           />
         )}
         onEndReached={fetchMoreData}

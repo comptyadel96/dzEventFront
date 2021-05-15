@@ -94,6 +94,7 @@ export default function Calendars() {
               onPress={() => {
                 navigation.navigate("EventDetails", {
                   _id: oneEvent._id,
+                  owner:oneEvent.owner
                 })
               }}
             />

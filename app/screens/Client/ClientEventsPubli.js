@@ -4,17 +4,19 @@ import AuthContext from "../authentification/AuthContext"
 import axios from "axios"
 import BaseUrl from "../../assets/BaseUrl"
 import EventCard from "../../components/Cards/EventCard"
-import momment from "moment"
-export default function ClientEventsPubli({ navigation }) {
+import moment from "moment"
+import { useNavigation } from "@react-navigation/core"
+export default function ClientEventsPubli() {
+  const navigation = useNavigation()
   // const {user,_id}=useContext(AuthContext)
   const [clientEvents, setClientEvents] = useState([])
 
   const getUserEvents = async () => {
     try {
       const clientEventPublications = await axios.get(
-        `${BaseUrl}/dzevents/v1/me/events`
+        `${BaseUrl}/dzevents/v1/posts/me/events`
       )
-      setClientEvents(clientEventPublications)
+      setClientEvents(clientEventPublications.data)
     } catch (e) {
       console.log(e)
     }
@@ -36,17 +38,16 @@ export default function ClientEventsPubli({ navigation }) {
             dateDebut={moment(item.dateDebut).format("D/MMM/YYYY")}
             dateFin={moment(item.dateFin).format("D/MMM/YYYY")}
             createdAt={moment(item.createdAt).fromNow()}
-            onPress={() =>
+            onPress={() => {
               navigation.navigate("EventDetails", {
                 _id: item._id,
                 owner: item.owner,
               })
-            }
+            }}
           />
         )}
       />
     </View>
-    
   )
 }
 

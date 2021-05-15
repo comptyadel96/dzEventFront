@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, TouchableHighlight, View } from "react-native"
+import { TouchableHighlight, View } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 export default function AppLogo({
   logo,
@@ -7,29 +7,33 @@ export default function AppLogo({
   size = 40,
   backColor = "white",
   onPress,
-  style
+  style,
+  showBackground = true,
 }) {
   return (
-    <TouchableHighlight onPress={onPress} underlayColor='white'>
-    <View 
-      style={[{
-        backgroundColor: backColor,
-        width: size,
-        height: size,
-        borderRadius: size / 2,
-        justifyContent: "center",
-        alignItems: "center",},style]
-        
-      }>
-      <MaterialCommunityIcons
-        name={logo}
-        color={logoColor}
-        style={styles.logo}
-        size={size / 2}
-        />
-    </View>
+    <TouchableHighlight onPress={onPress} underlayColor="white">
+      {showBackground ? (
+        <View
+          style={[
+            {
+              backgroundColor: backColor,
+              width: size,
+              height: size,
+              borderRadius: size / 2,
+              justifyContent: "center",
+              alignItems: "center",
+            },
+            style,
+          ]}>
+          <MaterialCommunityIcons
+            name={logo}
+            color={logoColor}
+            size={size / 2}
+          />
+        </View>
+      ) : (
+        <MaterialCommunityIcons name={logo} color={logoColor} size={size / 2} />
+      )}
     </TouchableHighlight>
   )
 }
-
-const styles = StyleSheet.create({})

@@ -54,11 +54,10 @@ export default function RegisterOrLogin() {
               password: values.password,
             })
             setLoginError(false)
-            axios.defaults.headers.common["x-auth-token"] =result.headers["x-auth-token"]
+            axios.defaults.headers.common["x-auth-token"] =
               result.headers["x-auth-token"]
             const jwtToken = jwtDecode(result.headers["x-auth-token"])
             authContext.setUser(jwtToken)
-            
           } catch (e) {
             console.log(e)
             setLoginError(true)

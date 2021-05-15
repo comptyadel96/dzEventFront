@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   titre: {
-    color: Colors.grey,
+    color: Colors.gold,
     alignSelf: "center",
     fontSize: 25,
     fontWeight: "bold",

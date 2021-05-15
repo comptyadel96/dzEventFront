@@ -167,13 +167,13 @@ export default function EventPublicationsScreen({ show = true }) {
               imageUri={item.image}
               dateDebut={moment(item.dateDebut).format("D/MMM/YYYY")}
               dateFin={moment(item.dateFin).format("D/MMM/YYYY")}
-              // status={item.status}
               createdAt={moment(item.createdAt).fromNow()}
               onPress={() => {
                 navigation.navigate("EventDetails", {
                   _id: item._id,
                   owner: item.owner,
                 })
+               console.log(item.owner);
               }}
             />
           )}

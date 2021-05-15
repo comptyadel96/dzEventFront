@@ -20,7 +20,7 @@ export default function StorePublicationScreen() {
   const [hasSearched, setHasSearched] = useState(false)
 
   useEffect(() => {
-    fetch(`${BaseUrl}/dzevents/v1/store?page=${page}&limit=5`)
+    fetch(`${BaseUrl}/dzevents/v1/store?page=${page}&limit=10`)
       .then((result) => result.json())
       .then((data) => setArticle([...article, ...data]))
   }, [page])
@@ -33,7 +33,7 @@ export default function StorePublicationScreen() {
   const handleRefresh = async () => {
     setArticle([])
     const result = await fetch(
-      `${BaseUrl}/dzevents/v1/store?page=${page}&limit=5`
+      `${BaseUrl}/dzevents/v1/store?page=${page}&limit=10`
     )
     setPage(1)
     const articles = await result.json()
@@ -88,7 +88,7 @@ export default function StorePublicationScreen() {
                 prix={item.prix}
                 image={item.photos[0]}
                 createdAt={moment(item.createdAt).fromNow()}
-                // owner={item.owner.name}
+                owner={item.owner}
                 onPress={() =>
                   navigation.navigate("DetailsArticles", {
                     _id: item._id,
@@ -123,11 +123,11 @@ export default function StorePublicationScreen() {
                 prix={item.prix}
                 image={item.photos[0]}
                 createdAt={moment(item.createdAt).fromNow()}
-                // owner={item.owner.name}
+                owner={item.owner}
                 onPress={() =>
                   navigation.navigate("DetailsArticles", {
                     _id: item._id,
-                    // owner: item.owner,
+                    owner: item.owner,
                   })
                 }
               />

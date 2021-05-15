@@ -5,12 +5,11 @@ import moment from "moment"
 import momentConfig from "../../config-momentJs/MomentJs"
 import Colors from "../../assets/Colors"
 import BaseUrl from "../../assets/BaseUrl"
+import AppLogo from "../../components/AppLogo"
 
 export default function EventDetailScreen({ route }) {
-  const { _id, owner} = route.params
-
+  const { _id, owner } = route.params
   moment.locale("Fr")
-
   const [event, setEvent] = useState([])
 
   const fetchEvent = async () => {
@@ -99,8 +98,6 @@ export default function EventDetailScreen({ route }) {
             </View>
           )}
 
-         
-
           {event.description ? (
             <View style={styles.description}>
               <AppText style={styles.categorie}>
@@ -128,6 +125,34 @@ export default function EventDetailScreen({ route }) {
         <View style={styles.publisher}>
           <AppText style={{ color: Colors.primary }}>Publier par:</AppText>
           <Text style={styles.text}>{owner.name}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 5,
+            }}>
+            <AppLogo
+              logo="cellphone-android"
+              logoColor={Colors.grey}
+              size={55}
+              showBackground={false}
+            />
+            <Text style={{ color: Colors.primary }}>{owner.phoneNumber}</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 5,
+            }}>
+            <AppLogo
+              logo="email-outline"
+              logoColor={Colors.grey}
+              size={55}
+              showBackground={false}
+            />
+            <Text style={{ color: Colors.primary }}>{owner.email}</Text>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -142,7 +167,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     paddingHorizontal: 8,
-    width:'100%'
+    width: "100%",
   },
   image: {
     width: "100%",
@@ -172,9 +197,11 @@ const styles = StyleSheet.create({
   },
   publisher: {
     margin: 10,
+    alignItems: "flex-start",
   },
   text: {
     color: Colors.grey,
     fontSize: 17,
+    
   },
 })

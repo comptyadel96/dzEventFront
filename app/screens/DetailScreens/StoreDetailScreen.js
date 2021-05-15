@@ -197,7 +197,7 @@ export default function StoreDetailScreen({ route }) {
               </AppText>
             </View>
 
-            {/* {owner.phoneNumber && (
+            {owner.phoneNumber && (
               <View
                 style={{
                   flexDirection: "row",
@@ -214,7 +214,7 @@ export default function StoreDetailScreen({ route }) {
                   {owner.phoneNumber}
                 </AppText>
               </View>
-            )} */}
+            )}
           </View>
         </ScrollView>
       </View>
