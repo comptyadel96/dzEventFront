@@ -1,7 +1,6 @@
 import React from "react"
 import {
   Image,
-  ScrollView,
   StyleSheet,
   View,
   TouchableWithoutFeedback,

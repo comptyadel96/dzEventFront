@@ -5,8 +5,12 @@ import { useFormikContext } from "formik"
 import AppLogo from "../../components/AppLogo"
 import Colors from "../../assets/Colors"
 
-export default function AppImagePicker({ name }) {
-  const { values, setFieldValue } = useFormikContext()
+export default function AppImagePicker({
+  name,
+  imgStyle,
+  isProfilPicture = false,
+}) {
+  const { values, setFieldValue, handleSubmit } = useFormikContext()
 
   const requestPermission = async () => {
     const { granted } = await ImagePicker.requestCameraPermissionsAsync()
@@ -26,6 +30,8 @@ export default function AppImagePicker({ name }) {
         Platform.OS === "android"
           ? setFieldValue(name, img.uri)
           : setFieldValue(name, img.uri.replace("file://", ""))
+        // si on est dans le account screen(photo de profile) alors on telecharge directement l'image selectionner par le client au lieux du submit button
+        isProfilPicture && handleSubmit()
       }
     } catch (e) {
       console.log(e)
@@ -38,12 +44,15 @@ export default function AppImagePicker({ name }) {
   return (
     <View>
       {values[name] && (
-        <Image source={{ uri: values[name] }} style={styles.image} />
+        <Image
+          source={{ uri: values[name] }}
+          style={[styles.image, imgStyle]}
+        />
       )}
 
       {!values[name] && (
         <AppLogo
-          logo="camera"
+          logo="camera-plus"
           onPress={handlePickImage}
           size={100}
           backColor={Colors.textInput}

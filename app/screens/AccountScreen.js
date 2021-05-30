@@ -1,49 +1,87 @@
-import React, { useState, useEffect, useContext } from "react"
-import { StyleSheet, Image, View, TouchableOpacity } from "react-native"
+import React, { useState } from "react"
+import { StyleSheet, Image, View, TouchableOpacity, Modal } from "react-native"
 import Colors from "../assets/Colors"
 import AppText from "../components/AppText"
-import AppButton from "../components/AppButton"
 import ProfilPublication from "../components/ProfilPublication"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { Ionicons } from "@expo/vector-icons"
 import { AntDesign } from "@expo/vector-icons"
-import AuthContext from "./authentification/AuthContext"
 import RegisterOrLogin from "./authentification/RegisterOrLogin"
+import axios from "axios"
+import BaseUrl from "../assets/BaseUrl"
+import { useContext } from "react"
+import AuthContext from "./authentification/AuthContext"
+import AppForm from "./forms/AppForm"
+import AppImagePicker from "./forms/AppImagePicker"
+import AppButton from "../components/AppButton"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
-export default function AccountScreen({ profileImageUri, navigation }) {
+export default function AccountScreen({ navigation }) {
   const { user, setUser } = useContext(AuthContext)
+  const [showModal, setShowModal] = useState(false)
+
   return (
     <View style={styles.container}>
       {user && <AppText style={styles.title}>Profile</AppText>}
       {user && (
         <View style={styles.profilInfos}>
-          {profileImageUri ? (
-            <Image source={profileImageUri} style={styles.image} />
+          {user && user.profilePicture ? (
+            <TouchableOpacity onPress={() => setShowModal(true)}>
+              <Modal visible={showModal} style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons
+                  name="close"
+                  size={27}
+                  color={Colors.grey}
+                  onPress={() => setShowModal(false)}
+                />
+                <AppButton
+                  title="changer la photo +"
+                  style={styles.changeprofilPic}
+                />
+              </Modal>
+
+              <Image
+                source={{ uri: user.profilePicture }}
+                style={styles.image}
+              />
+            </TouchableOpacity>
           ) : (
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+            <AppForm
+              initialValues={{ profilePic: null }}
+              onSubmit={async (value) => {
+                const formData = new FormData()
+                formData.append("profilePic", {
+                  uri: value.profilePic,
+                  type: "img/jpg",
+                  name: value.profilePic,
+                })
+                try {
+                  await axios.put(
+                    `${BaseUrl}/dzevents/v1/users/me/profilpicture`,
+                    formData
+                  )
+                } catch (error) {
+                  console.log(error)
+                }
+                console.log(value)
               }}>
-              <MaterialCommunityIcons
-                name="camera-plus"
-                size={34}
-                color="black"
-              />
-              <AppButton
-                title="ajouter une photo"
-                style={styles.ajoutPhoto}
-                text={{ fontSize: 14, color: "black" }}
-              />
+              <View style={{ flexDirection: "column" }}>
+                <AppImagePicker
+                  isProfilPicture={true}
+                  name="profilePic"
+                  imgStyle={styles.image}
+                />
+              </View>
+            </AppForm>
+          )}
+
+          {user && (
+            <View style={styles.nameEmail}>
+              <AppText> {user.name} </AppText>
+              <AppText style={{ color: "grey", fontSize: 15 }}>
+                {user.email}
+              </AppText>
             </View>
           )}
-          <View style={styles.nameEmail}>
-            <AppText> {user.name} </AppText>
-            <AppText style={{ color: "grey", fontSize: 15 }}>
-              {user.email}
-            </AppText>
-          </View>
         </View>
       )}
 
@@ -63,7 +101,10 @@ export default function AccountScreen({ profileImageUri, navigation }) {
             text="Evènement(s) que j'ai publier "
             onPress={() => navigation.navigate("ClientEventsPubli")}
           />
-          <ProfilPublication text="Article(s) publier sur le store " />
+          <ProfilPublication
+            text="Article(s) publier sur le store "
+            onPress={() => navigation.navigate("ClientStorePubli")}
+          />
           <ProfilPublication text="Ma premiére fois  " />
         </View>
       )}
@@ -79,10 +120,13 @@ export default function AccountScreen({ profileImageUri, navigation }) {
             }}>
             <Ionicons name="options" size={24} color="grey" /> Plus d'options{" "}
           </AppText>
-          {profileImageUri && (
-            <ProfilPublication text="Modifier la photo de profil" />
-          )}
-          <ProfilPublication text="Modifier vos informations personnelle " />
+          {/* {user.profilePicture && (
+            <ProfilPublication text="Modifier la photo de profile"  />
+          )} */}
+          <ProfilPublication
+            text="Modifier vos informations personnelle "
+            onPress={() => navigation.navigate("UpdateAccountInfos")}
+          />
           <ProfilPublication
             text="Se déconnecter "
             onPress={() => setUser(undefined)}
@@ -133,5 +177,9 @@ const styles = StyleSheet.create({
     width: "auto",
     height: 20,
     backgroundColor: "lightgrey",
+  },
+  submitImg: {
+    width: 98,
+    height: 25,
   },
 })

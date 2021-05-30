@@ -8,6 +8,8 @@ import AppTextInput from "../../components/AppTextInput"
 import AppText from "../../components/AppText"
 import { Fontisto } from "@expo/vector-icons"
 import BaseUrl from "../../assets/BaseUrl"
+import LoadingAnim from "../../components/LoadingAnim"
+import axios from "axios"
 
 export default function StorePublicationScreen() {
   const navigation = useNavigation()
@@ -18,12 +20,24 @@ export default function StorePublicationScreen() {
   const [refresh] = useState(false)
   const [searchItem, setSearchItem] = useState("")
   const [hasSearched, setHasSearched] = useState(false)
+  const [loading, setLoading] = useState(false)
 
+  const fetchStoreItems = async () => {
+    try {
+      setLoading(true)
+      const storeArticles = await axios.get(
+        `${BaseUrl}/dzevents/v1/store?page=${page}&limit=10`
+      )
+
+      setArticle([...article, ...storeArticles.data])
+      setLoading(false)
+    } catch (e) {
+      console.log(e)
+    }
+  }
   useEffect(() => {
-    fetch(`${BaseUrl}/dzevents/v1/store?page=${page}&limit=10`)
-      .then((result) => result.json())
-      .then((data) => setArticle([...article, ...data]))
-  }, [page])
+    fetchStoreItems()
+  }, [])
 
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1)
@@ -76,6 +90,13 @@ export default function StorePublicationScreen() {
           onSubmitEditing={handleResearch}
         />
       </View>
+
+      {/* LOADING ANIMATION FOR THE SHOP */}
+      <LoadingAnim
+        visible={loading}
+        source={require("../../assets/animations/shop.json")}
+      />
+
       {article.length && !searchItem ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <FlatList
@@ -107,7 +128,7 @@ export default function StorePublicationScreen() {
         </View>
       ) : (
         !searchItem &&
-        !article.length && <AppText>Aucun article trouver </AppText>
+        article.length>0 && <AppText>Aucun article trouver </AppText>
       )}
 
       {/* si on fait une recherche dans le store ... */}
@@ -139,7 +160,7 @@ export default function StorePublicationScreen() {
         hasSearched &&
         searchItem.length > 0 &&
         article2.length == 0 && (
-          <AppText>
+          <AppText style={{marginHorizontal:10}} >
             Aucun article trouver pour "{searchItem}" assurez vous d'avoir écrit
             le nom de l'article correctement et réessayez
           </AppText>

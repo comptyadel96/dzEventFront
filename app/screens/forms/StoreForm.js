@@ -28,6 +28,7 @@ const validationSchema = Yup.object().shape({
     .max(100)
     .required("veuillez indiquer votre wilaya"),
   storePics: Yup.array().max(5),
+  description: Yup.string().max(1024),
 })
 
 export default function StoreForm({ navigation }) {
@@ -41,7 +42,13 @@ export default function StoreForm({ navigation }) {
       </AppText>
       <UploadProgress visible={visible} progress={progressUpload} />
       <AppForm
-        initialValues={{ article: "", prix: "", wilaya: "", storePics: [] }}
+        initialValues={{
+          article: "",
+          prix: "",
+          wilaya: "",
+          storePics: [],
+          description: "",
+        }}
         onSubmit={async (values) => {
           let formdata = new FormData()
           // itérer sur tous le tableau des photos seléctionner par l'utilisateur
@@ -55,6 +62,7 @@ export default function StoreForm({ navigation }) {
           formdata.append("article", values.article)
           formdata.append("prix", values.prix)
           formdata.append("wilaya", values.wilaya)
+          formdata.append("description", values.description)
           try {
             setProgressUpload(0)
             setVisible(true)
@@ -66,7 +74,7 @@ export default function StoreForm({ navigation }) {
             navigation.navigate("WelcomeScreen")
           } catch (e) {
             console.log(e)
-            alert("une erreure est survenue veuillez réessayer")
+            alert("une erreure est survenue veuillez réessayer dans un moment")
             navigation.navigate("WelcomeScreen")
           }
         }}
@@ -90,6 +98,12 @@ export default function StoreForm({ navigation }) {
           style={styles.input}
           icon="map-marker-radius"
         />
+        <AppFormField
+          name="description"
+          placeholder="description"
+          style={styles.descriptionInput}
+          icon="sort-descending"
+        />
         <ButtonSubmit title="Publier" style={styles.button} />
       </AppForm>
     </View>
@@ -102,18 +116,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titre: {
-    marginBottom: 80,
+    marginBottom: 20,
     marginTop: 50,
     fontSize: 30,
     color: "#787675",
     fontWeight: "bold",
-    borderBottomWidth: 0.5,
-    borderColor: "grey",
     paddingBottom: 10,
   },
   input: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  descriptionInput: {
+    minHeight: 120,
+    alignSelf: "center",
   },
   button: {
     marginTop: 30,

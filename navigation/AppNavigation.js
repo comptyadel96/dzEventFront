@@ -9,7 +9,7 @@ import FirstTimeDetailScreen from "../app/screens/DetailScreens/FirstTimeDetailS
 import FirstTimePublicationsScreen from "../app/screens/Mypublication/FirstTimePublicationsScreen"
 import StorePublicationScreen from "../app/screens/Mypublication/StorePublicationScreen"
 import StoreDetailScreen from "../app/screens/DetailScreens/StoreDetailScreen"
-import ViewEventImage from "../app/screens/ViewEventImage"
+import ViewStoreImages from "../app/screens/ViewStoreImages"
 import AccountScreen from "../app/screens/AccountScreen"
 import NavigationTheme from "./NavigationTheme"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
@@ -22,6 +22,8 @@ import FirstTimeForm from "../app/screens/forms/FirstTimeForm"
 import Calendars from "../app/screens/Calendars"
 import RegisterOrLogin from "../app/screens/authentification/RegisterOrLogin"
 import ClientEventsPubli from "../app/screens/Client/ClientEventsPubli"
+import UpdateAccountInfos from "../app/screens/forms/UpdateAccountInfos"
+import ClientStorePubli from "../app/screens/Client/ClientStorePubli"
 
 export default function AppNavigation() {
   const { Navigator, Screen } = createStackNavigator()
@@ -125,13 +127,18 @@ export default function AppNavigation() {
           options={{ title: "details d'article", headerShown: false }}
         />
         <Screen
-          name="ViewStoreImage"
-          component={ViewEventImage}
+          name="ViewStoreImages"
+          component={ViewStoreImages}
           options={{ headerShown: false }}
         />
         <Screen
           name="ClientEventsPubli"
           component={ClientEventsPubli}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="ClientStorePubli"
+          component={ClientStorePubli}
           options={{ headerShown: false }}
         />
 
@@ -160,6 +167,11 @@ export default function AppNavigation() {
         <Screen
           name="RegisterOrLogin"
           component={RegisterOrLogin}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="UpdateAccountInfos"
+          component={UpdateAccountInfos}
           options={{ headerShown: false }}
         />
       </Navigator>

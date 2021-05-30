@@ -67,7 +67,7 @@ export default function RegisterOrLogin() {
         validationSchema={validationSchema}>
         {/* message d'erreur en cas de mot de passe ou email invalide */}
         <FormMessageError
-          errors="email ou mot de passe incorrecte"
+          errors="email ou/et mot de passe incorrecte"
           visible={loginError}
         />
 

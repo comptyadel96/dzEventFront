@@ -25,12 +25,13 @@ export default function StoreDetailScreen({ route }) {
 
   const [article, setArticle] = useState([])
   const [photos, setPhotos] = useState([])
+  
+
   const fetchArticles = async () => {
     try {
-      const articleUrl = await fetch(
-        `${BaseUrl}/dzevents/v1/store/${_id}`,
-        { signal: abortControll.signal }
-      )
+      const articleUrl = await fetch(`${BaseUrl}/dzevents/v1/store/${_id}`, {
+        signal: abortControll.signal,
+      })
       const result = await articleUrl.json()
       setArticle(result)
       setPhotos(result.photos)
@@ -53,16 +54,16 @@ export default function StoreDetailScreen({ route }) {
         color={Colors.primary}
       />
       <View style={styles.container}>
-        {photos.length > 0 ? (
+        {photos ? (
           <FlatList
             data={photos}
             keyExtractor={(store) => store._id}
             renderItem={({ item }) => (
               <TouchableWithoutFeedback
                 onPress={() => {
-                  navigation.navigate("ViewStoreImage", {
+                  navigation.navigate("ViewStoreImages", {
                     imgUrl: item.url,
-                    img_id: item._id.toString(),
+                    img_id: item._id,
                     article_id: _id,
                   })
                 }}>
@@ -176,7 +177,7 @@ export default function StoreDetailScreen({ route }) {
                 backColor={Colors.white}
               />
               <AppText style={{ marginLeft: 5, color: Colors.primary }}>
-                {owner.name} 
+                {owner.name}
               </AppText>
             </View>
 

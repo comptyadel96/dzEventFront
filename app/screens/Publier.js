@@ -8,6 +8,7 @@ import AuthContext from "./authentification/AuthContext"
 import RegisterOrLogin from "./authentification/RegisterOrLogin"
 
 export default function Publier({ navigation }) {
+  
   const { user } = useContext(AuthContext)
   return (
     <View style={styles.container}>

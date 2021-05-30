@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Image, StyleSheet, View } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 import BaseUrl from "../assets/BaseUrl"
 
 export default function ViewEventImage({ route }) {
-
   const navigation = useNavigation()
   const { imgUrl, img_id, article_id } = route.params
 

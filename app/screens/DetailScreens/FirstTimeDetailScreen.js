@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native"
 import AppScreen from "../../components/AppScreen"
 import AppText from "../../components/AppText"
-
 import moment from "moment"
 import momentConfig from "../../config-momentJs/MomentJs"
 import BaseUrl from "../../assets/BaseUrl"
 import Colors from "../../assets/Colors"
+import AuthContext from "../authentification/AuthContext"
+import AppButton from "../../components/AppButton"
 
 export default function FirstTimeDetailScreen({ route }) {
+  const authContext = useContext(AuthContext)
   const { _id, owner, photo } = route.params
   const [firstTime, setFirstTime] = useState([])
   const fetchFirstTimes = async () => {
@@ -22,6 +24,7 @@ export default function FirstTimeDetailScreen({ route }) {
   }
   useEffect(() => {
     fetchFirstTimes()
+    // console.log(authContext.user)
   }, [])
 
   return (
@@ -62,6 +65,13 @@ export default function FirstTimeDetailScreen({ route }) {
             il ya {moment(firstTime.createdAt).fromNow(true)}
           </AppText>
         </View>
+        {authContext.user && authContext.user._id === owner._id && (
+          <AppButton
+            title="Modifier la publication"
+            style={styles.modifyButton}
+            color={Colors.gold}
+          />
+        )}
       </ScrollView>
     </AppScreen>
   )
@@ -95,5 +105,10 @@ const styles = StyleSheet.create({
   subText: {
     color: "grey",
     fontSize: 18,
+  },
+  modifyButton: {
+    height: 40,
+    width: 200,
+    alignSelf: "center",
   },
 })

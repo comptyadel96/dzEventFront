@@ -25,7 +25,6 @@ export default function EventPublicationsScreen({ show = true }) {
   const [hasSearched, setHasSearched] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  // fonction pour fetcher la data depuis le back-end (remplacer 192.168.1.38 par votre adresse IP) nb:localhost ne marchera pas
   const fetchEvent = async () => {
     try {
       setLoading(true)
@@ -173,7 +172,6 @@ export default function EventPublicationsScreen({ show = true }) {
                   _id: item._id,
                   owner: item.owner,
                 })
-               console.log(item.owner);
               }}
             />
           )}
