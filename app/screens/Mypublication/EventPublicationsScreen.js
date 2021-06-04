@@ -29,7 +29,7 @@ export default function EventPublicationsScreen({ show = true }) {
     try {
       setLoading(true)
       const result = await fetch(
-        `${BaseUrl}/dzevents/v1/posts?page=${page}&limit=5&categorie=${item}`
+        `${BaseUrl}/dzevents/v1/posts?page=${page}&limit=10&categorie=${item}`
       )
       const event = await result.json()
       setEvent([...events, ...event])
@@ -52,7 +52,7 @@ export default function EventPublicationsScreen({ show = true }) {
     setSearchEvent("")
     setHasSearched(false)
     const result = await fetch(
-      `${BaseUrl}/dzevents/v1/posts?page=${page}&limit=5&categorie=${item}`
+      `${BaseUrl}/dzevents/v1/posts?page=${page}&limit=10&categorie=${item}`
     )
     setPage(1)
     const event = await result.json()
@@ -81,7 +81,7 @@ export default function EventPublicationsScreen({ show = true }) {
     setHasSearched(false)
     try {
       const result = await fetch(
-        `${BaseUrl}/dzevents/v1/posts?page=${page}&limit=5&categorie=${item}`
+        `${BaseUrl}/dzevents/v1/posts?page=${page}&limit=10&categorie=${item}`
       )
       setPage(1)
       const event = await result.json()

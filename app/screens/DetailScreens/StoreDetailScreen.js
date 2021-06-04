@@ -22,10 +22,8 @@ export default function StoreDetailScreen({ route }) {
   const abortControll = new AbortController()
   const navigation = useNavigation()
   const { _id, owner } = route.params
-
   const [article, setArticle] = useState([])
   const [photos, setPhotos] = useState([])
-  
 
   const fetchArticles = async () => {
     try {
@@ -65,6 +63,7 @@ export default function StoreDetailScreen({ route }) {
                     imgUrl: item.url,
                     img_id: item._id,
                     article_id: _id,
+                    owner: owner._id,
                   })
                 }}>
                 <Image

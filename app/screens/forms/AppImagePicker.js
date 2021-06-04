@@ -9,6 +9,7 @@ export default function AppImagePicker({
   name,
   imgStyle,
   isProfilPicture = false,
+  isUpdatedImage = false,
 }) {
   const { values, setFieldValue, handleSubmit } = useFormikContext()
 

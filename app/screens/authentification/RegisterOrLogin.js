@@ -13,6 +13,7 @@ import BaseUrl from "../../assets/BaseUrl"
 import jwtDecode from "jwt-decode"
 import * as Yup from "yup"
 import AuthContext from "./AuthContext"
+import AuthStorage from "./AuthStorage"
 require("yup-password")(Yup)
 
 export default function RegisterOrLogin() {
@@ -54,10 +55,14 @@ export default function RegisterOrLogin() {
               password: values.password,
             })
             setLoginError(false)
-            axios.defaults.headers.common["x-auth-token"] =
-              result.headers["x-auth-token"]
+
             const jwtToken = jwtDecode(result.headers["x-auth-token"])
             authContext.setUser(jwtToken)
+            await AuthStorage.storeToken(result.headers["x-auth-token"])
+
+            const authToken = await AuthStorage.getToken()
+            if (!authToken) return
+            axios.defaults.headers.common["x-auth-token"] = authToken
           } catch (e) {
             console.log(e)
             setLoginError(true)

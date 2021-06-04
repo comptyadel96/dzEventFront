@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { Modal, ScrollView, StyleSheet, Text, View } from "react-native"
+import { Alert, Modal, ScrollView, StyleSheet, Text, View } from "react-native"
 import * as Yup from "yup"
 require("yup-password")(Yup)
 import axios from "axios"
@@ -13,12 +13,14 @@ import { useNavigation } from "@react-navigation/core"
 import AppButton from "../../components/AppButton"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import AppText from "../../components/AppText"
+import FormMessageError from "./FormMessageError"
 
 export default function UpdateAccountInfos() {
   const { user, setUser } = useContext(AuthContext)
   const navigation = useNavigation()
   const [showModal, setShowModal] = useState(false)
-
+  const [loginError, setLoginError] = useState(false)
+  const [hideNewPass, setHideNewPass] = useState(true)
   const updateDetails = async (data) => {
     try {
       await axios.put(`${BaseUrl}/dzevents/v1/users/updatedetails`, data)
@@ -31,7 +33,11 @@ export default function UpdateAccountInfos() {
   const updatePassword = async (data) => {
     try {
       await axios.put(`${BaseUrl}/dzevents/v1/users/updatepassword`, data)
+      setShowModal(false)
+      setLoginError(false)
+      Alert.alert("bravo", "mot de passe mis à jour avec succée 😇 ")
     } catch (e) {
+      setLoginError(true)
       console.log(e)
     }
   }
@@ -105,7 +111,6 @@ export default function UpdateAccountInfos() {
           onSubmit={async (values) => {
             updateDetails(values)
             setUser(values)
-            
           }}>
           <AppFormField name="name" placeholder={user.name.toString()} />
           <AppFormField name="email" placeholder={user.email.toString()} />
@@ -124,7 +129,9 @@ export default function UpdateAccountInfos() {
           onPress={() => setShowModal(true)}
         />
 
-        <Modal visible={showModal} style={{ alignItems: "center" }}>
+        <Modal
+          visible={showModal}
+          style={{ alignItems: "center", justifyContent: "space-between" }}>
           <MaterialCommunityIcons
             name="close"
             size={27}
@@ -137,15 +144,33 @@ export default function UpdateAccountInfos() {
 
           <AppForm
             initialValues={{ password: "", newPassword: "" }}
-            onSubmit={(values) => console.log(values)}>
+            validationSchema={newPasswordSchema}
+            onSubmit={async (values) => {
+              updatePassword(values)
+            }}>
             <AppFormField
               name="password"
               placeholder="entrer votre mot de passe actuelle"
             />
+            <FormMessageError
+              errors=" mot de passe incorrecte"
+              visible={loginError}
+            />
             <AppFormField
               name="newPassword"
               placeholder="nouveau mot de passe"
+              secureTextEntry={hideNewPass}
             />
+            <AppButton
+              title="afficher"
+              onPress={() => setHideNewPass(!hideNewPass)}
+              style={styles.hideNewPass}
+              logo="shield-lock"
+              logoColor="white"
+              backColor="transparent"
+              size={40}
+            />
+
             <ButtonSubmit title="Confirmer" style={styles.submitButton} />
           </AppForm>
         </Modal>
@@ -175,5 +200,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 10,
     backgroundColor: Colors.secondary,
+  },
+  hideNewPass: {
+    width: 120,
+    height: 27,
+    marginLeft: 15,
+    backgroundColor: "dodgerblue",
   },
 })

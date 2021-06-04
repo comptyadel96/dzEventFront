@@ -5,6 +5,7 @@ import Colors from "../assets/Colors"
 import AppScreen from "../components/AppScreen"
 import AppText from "../components/AppText"
 import EventPublicationsScreen from "./Mypublication/EventPublicationsScreen"
+import LoadingAnim from "../components/LoadingAnim"
 
 export default function WelcomeScreen({ navigation }) {
   return (
@@ -67,19 +68,16 @@ export default function WelcomeScreen({ navigation }) {
             />
           </View>
         </ScrollView>
-
-        <AppText
-          style={{
-            color: Colors.grey,
-            fontSize: 18,
-            marginVertical: 5,
-          }}>
-          Evènements réçamment publié ....
-        </AppText>
-
-        <View style={styles.events}>
-          <EventPublicationsScreen show={false} />
+        <View style={styles.animationContainer}>
+          <LoadingAnim
+            source={require("../assets/animations/welcomeAnim.json")}
+            visible
+          />
         </View>
+        <AppText style={{ textAlign: "center",marginTop:15 }}>
+          bienvenue sur votre application préférée des évènements . 
+          commencer par voir les évènements disponibles ou bien publier le votre .
+        </AppText>
       </View>
     </AppScreen>
   )
@@ -129,5 +127,9 @@ const styles = StyleSheet.create({
     marginTop: 0,
     paddingTop: 0,
     width: "100%",
+  },
+  animationContainer: {
+    height: 400,
+    width: 400,
   },
 })

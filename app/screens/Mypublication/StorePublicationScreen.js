@@ -45,14 +45,20 @@ export default function StorePublicationScreen() {
   }
 
   const handleRefresh = async () => {
-    setArticle([])
-    const result = await fetch(
-      `${BaseUrl}/dzevents/v1/store?page=${page}&limit=10`
-    )
-    setPage(1)
-    const articles = await result.json()
-    setArticle(articles)
-    setHasSearched(false)
+    try {
+      setArticle([])
+      setLoading(true)
+      const result = await axios.get(
+        `${BaseUrl}/dzevents/v1/store?page=${page}&limit=10`
+      )
+
+      setArticle([...article, ...result.data])
+      setLoading(false)
+      setHasSearched(false)
+      console.log(result)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleResearch = async () => {
@@ -128,7 +134,7 @@ export default function StorePublicationScreen() {
         </View>
       ) : (
         !searchItem &&
-        article.length>0 && <AppText>Aucun article trouver </AppText>
+        article.length > 0 && <AppText>Aucun article trouver </AppText>
       )}
 
       {/* si on fait une recherche dans le store ... */}
@@ -160,11 +166,16 @@ export default function StorePublicationScreen() {
         hasSearched &&
         searchItem.length > 0 &&
         article2.length == 0 && (
-          <AppText style={{marginHorizontal:10}} >
+          <AppText style={{ marginHorizontal: 10 }}>
             Aucun article trouver pour "{searchItem}" assurez vous d'avoir écrit
             le nom de l'article correctement et réessayez
           </AppText>
         )
+      )}
+      {article.length == 0 && (
+        <AppText style={{ textAlign: "center" }}>
+          aucun article n'est disponible pour le moment
+        </AppText>
       )}
     </View>
   )

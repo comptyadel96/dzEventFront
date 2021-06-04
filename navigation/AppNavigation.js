@@ -28,6 +28,7 @@ import ClientStorePubli from "../app/screens/Client/ClientStorePubli"
 export default function AppNavigation() {
   const { Navigator, Screen } = createStackNavigator()
   const tab = createBottomTabNavigator()
+  // tab navigator
   const tabNavigator = () => (
     <tab.Navigator
       tabBarOptions={{
@@ -70,7 +71,7 @@ export default function AppNavigation() {
       />
     </tab.Navigator>
   )
-
+  // stack navigator
   return (
     <NavigationContainer theme={NavigationTheme}>
       <Navigator
