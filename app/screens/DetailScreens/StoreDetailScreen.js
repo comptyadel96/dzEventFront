@@ -21,7 +21,7 @@ import BaseUrl from "../../assets/BaseUrl"
 export default function StoreDetailScreen({ route }) {
   const abortControll = new AbortController()
   const navigation = useNavigation()
-  const { _id, owner } = route.params
+  const { _id, owner, profilePicture } = route.params
   const [article, setArticle] = useState([])
   const [photos, setPhotos] = useState([])
 
@@ -33,6 +33,7 @@ export default function StoreDetailScreen({ route }) {
       const result = await articleUrl.json()
       setArticle(result)
       setPhotos(result.photos)
+      // console.log(owner.profilePicture)
     } catch (e) {
       console.log(e)
     }
@@ -94,13 +95,14 @@ export default function StoreDetailScreen({ route }) {
             <View
               style={{
                 paddingHorizontal: 35,
+                paddingVertical: 7,
                 backgroundColor: Colors.textInput,
                 marginBottom: 18,
                 marginHorizontal: 20,
                 borderRadius: 50,
               }}>
               <AppText style={styles.infos}>Description</AppText>
-              <Text style={styles.subInfos}>{article.description}</Text>
+              <Text style={styles.description}>{article.description}</Text>
             </View>
           ) : (
             <View
@@ -134,8 +136,10 @@ export default function StoreDetailScreen({ route }) {
                 backColor={Colors.textInput}
                 size={70}
               />
-              <Text style={styles.subInfos}>{article.prix}</Text>
-              <Text style={styles.da}>da</Text>
+              <Text style={styles.subInfos}>
+                {article.prix}
+                {""} da
+              </Text>
             </View>
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -145,12 +149,7 @@ export default function StoreDetailScreen({ route }) {
                 backColor={Colors.textInput}
                 size={70}
               />
-              <Text
-                style={{
-                  color: Colors.secondary,
-                  fontSize: 17,
-                  marginLeft: 8,
-                }}>
+              <Text style={styles.subInfos}>
                 {moment(article.createdAt).fromNow()}
               </Text>
             </View>
@@ -169,12 +168,13 @@ export default function StoreDetailScreen({ route }) {
                 alignItems: "center",
                 marginVertical: 10,
               }}>
-              <AppLogo
-                logo="face"
-                logoColor={Colors.grey}
-                size={55}
-                backColor={Colors.white}
-              />
+              {profilePicture && (
+                <Image
+                  source={{ uri: profilePicture }}
+                  style={styles.profilPicImg}
+                />
+              )}
+
               <AppText style={{ marginLeft: 5, color: Colors.primary }}>
                 {owner.name}
               </AppText>
@@ -259,18 +259,23 @@ const styles = StyleSheet.create({
     color: Colors.secondary,
   },
   subInfos: {
-    color: Colors.secondary,
-    fontSize: 19,
+    color: Colors.primary,
+    fontSize: 16,
     margin: 5,
+  },
+  description: {
+    color: Colors.grey,
+    fontSize: 16,
   },
   defaultImage: {
     width: 340,
     height: 140,
     borderRadius: 70,
   },
-  da: {
-    color: Colors.dark,
-    fontSize: 16,
-    fontWeight: "600",
+
+  profilPicImg: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
 })

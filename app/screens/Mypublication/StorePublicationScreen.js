@@ -116,12 +116,13 @@ export default function StorePublicationScreen() {
                 image={item.photos[0]}
                 createdAt={moment(item.createdAt).fromNow()}
                 owner={item.owner}
-                onPress={() =>
+                onPress={() => {
                   navigation.navigate("DetailsArticles", {
                     _id: item._id,
                     owner: item.owner,
+                    profilePicture: item.owner.profilePicture,
                   })
-                }
+                }}
               />
             )}
             onEndReached={fetchMoreData}
@@ -172,7 +173,7 @@ export default function StorePublicationScreen() {
           </AppText>
         )
       )}
-      {article.length == 0 && (
+      {!article && (
         <AppText style={{ textAlign: "center" }}>
           aucun article n'est disponible pour le moment
         </AppText>
