@@ -23,7 +23,7 @@ export default function UploadProgress({
         <Text> {Math.round(progress * 100)}% </Text>
         <Text style={{ color: "grey", margin: 15,fontSize:17 }}>
           Vous serez rediriger vers la page de publication automatiquement une
-          fois que votre publication soit terminer
+          fois que votre publication sera compléter 😄 
         </Text>
       </View>
     </Modal>

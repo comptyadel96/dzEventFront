@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { StyleSheet, View, Text, ScrollView } from "react-native"
 import * as Yup from "yup"
 import AppFormField from "./AppFormField"
@@ -10,6 +10,7 @@ import BaseUrl from "../../assets/BaseUrl"
 import AppImagePicker from "./AppImagePicker"
 import AuthContext from "../authentification/AuthContext"
 import jwtDecode from "jwt-decode"
+import LoadingAnim from "../../components/LoadingAnim"
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -48,11 +49,24 @@ const validationSchema = Yup.object().shape({
 })
 
 export default function RegisterForm({ navigation }) {
-  const {  setUser } = useContext(AuthContext)
+  const { setUser } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.titre}>Inscription</Text>
+
+        {/* ANIMATION loading */}
+
+        {loading && (
+          <View style={{ height: "100%", width: "100%" }}>
+            <LoadingAnim
+              visible={loading}
+              source={require("../../assets/animations/registerAccount.json")}
+            />
+          </View>
+        )}
+
         <AppForm
           initialValues={{
             name: "",
@@ -60,39 +74,32 @@ export default function RegisterForm({ navigation }) {
             confirmPassword: "",
             phoneNumber: "",
             email: "",
-            profilePic: null,
           }}
           onSubmit={async (values) => {
-            let formdata = new FormData()
-            formdata.append("profilePic", {
-              uri: values.profilePic,
-              type: "image/jpg",
-              name: values.profilePic,
-            })
-            formdata.append("name", values.name)
-            formdata.append("password", values.password)
-            formdata.append("phoneNumber", values.phoneNumber)
-            formdata.append("email", values.email)
+            console.log(values)
             try {
+              const formdata = new FormData()
+              formdata.append("name", values.name)
+              formdata.append("password", values.password)
+              formdata.append("phoneNumber", values.phoneNumber)
+              formdata.append("email", values.email)
+              setLoading(true)
               const data = await axios.post(
                 `${BaseUrl}/dzevents/v1/users`,
                 formdata
               )
-             console.log(data.err);
-              if (data.status === 200) {
-                axios.defaults.headers.common["x-auth-token"] =
-                  data.headers["x-auth-token"]
-                const jwtToken = jwtDecode(data.headers["x-auth-token"])
-                console.log(jwtToken)
-                setUser(jwtToken)
-                navigation.navigate("WelcomeScreen")
-              }
+
+              axios.defaults.headers.common["x-auth-token"] =
+                data.headers["x-auth-token"]
+              const jwtToken = jwtDecode(data.headers["x-auth-token"])
+              setUser(jwtToken)
+              setLoading(false)
+              navigation.replace("RegisterCongrat")
             } catch (e) {
               console.log(e)
             }
           }}
           validationSchema={validationSchema}>
-          <AppImagePicker name="profilePic" />
           <AppFormField
             autoCapitalize="none"
             icon="star-face"
@@ -141,7 +148,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start",
+    // justifyContent: "flex-start",
   },
   image: {
     height: 200,
@@ -150,16 +157,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   titre: {
-    backgroundColor: "white",
     textAlign: "center",
     textAlignVertical: "center",
     fontSize: 40,
     color: "crimson",
     marginTop: 50,
     marginBottom: 10,
-    borderWidth: 1,
-    borderRadius: 100,
-    borderColor: "grey",
     padding: 20,
   },
   input: {

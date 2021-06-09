@@ -24,6 +24,7 @@ import RegisterOrLogin from "../app/screens/authentification/RegisterOrLogin"
 import ClientEventsPubli from "../app/screens/Client/ClientEventsPubli"
 import UpdateAccountInfos from "../app/screens/forms/UpdateAccountInfos"
 import ClientStorePubli from "../app/screens/Client/ClientStorePubli"
+import RegisterCongratuation from "../app/screens/RegisterCongratuation"
 
 export default function AppNavigation() {
   const { Navigator, Screen } = createStackNavigator()
@@ -142,7 +143,21 @@ export default function AppNavigation() {
           component={ClientStorePubli}
           options={{ headerShown: false }}
         />
-
+        <Screen
+          name="RegisterCongrat"
+          component={RegisterCongratuation}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="Account"
+          component={AccountScreen}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="Publication"
+          component={Publier}
+          options={{ headerShown: false }}
+        />
         {/* forms */}
         <Screen
           name="RegisterForm"
