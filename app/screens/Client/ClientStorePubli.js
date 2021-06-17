@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/core"
 import AppText from "../../components/AppText"
 import Colors from "../../assets/Colors"
 import StoreCard from "../../components/Cards/StoreCard"
+import AppButton from "../../components/AppButton"
 
 export default function ClientStorePubli() {
   const navigation = useNavigation()
@@ -18,7 +19,6 @@ export default function ClientStorePubli() {
         `${BaseUrl}/dzevents/v1/store/me/stores`
       )
       setClientStore(clientStorePublications.data)
-      console.log(clientStorePublications.data)
     } catch (e) {
       console.log(e)
     }
@@ -28,12 +28,12 @@ export default function ClientStorePubli() {
   }, [])
   return (
     <View style={styles.container}>
-      {clientStore ? (
+      <AppText style={styles.titre}>Mes articles sur le store </AppText>
+      {clientStore && clientStore.length > 0 ? (
         <View style={styles.articleContainer}>
           <FlatList
             data={clientStore}
             keyExtractor={(store) => store._id.toString()}
-            
             renderItem={({ item }) => (
               <StoreCard
                 article={item.article}
@@ -44,14 +44,23 @@ export default function ClientStorePubli() {
                     owner: item.owner,
                   })
                 }
+                style={{ alignSelf: "center" }}
               />
             )}
           />
         </View>
       ) : (
-        <AppText style={{ marginHorizontal: 15 }}>
-          vous n'avez pas encore publier d'article(s) sur le store
-        </AppText>
+        <>
+          <AppText style={{ marginHorizontal: 15, marginTop: 10 }}>
+            Vous n'avez pas encore publier d'article(s) sur le store
+          </AppText>
+          <AppButton
+            title="Publier"
+            onPress={() => navigation.navigate("Publication")}
+            style={{ width: 150, height: 37, alignSelf: "center" }}
+            color={Colors.secondary}
+          />
+        </>
       )}
     </View>
   )
@@ -62,9 +71,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+  titre: {
+    color: Colors.primary,
+    fontSize: 20,
+  },
   articleContainer: {
     width: "100%",
-    borderWidth: 1,
-   
   },
 })

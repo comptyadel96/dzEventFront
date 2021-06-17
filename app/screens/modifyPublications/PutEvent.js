@@ -18,6 +18,7 @@ export default function PutEvent({ route, navigation }) {
   const { _id, event } = route.params
   const dateDebut = (Date.now() + 1000 * 60 * 60 * 1).valueOf()
   const [showLoadingAnim, setShowLoadingAnim] = useState(false)
+
   const validationSchema = Yup.object().shape({
     titre: Yup.string()
       .min(6, "le titre doit contenir au moins 6 lettres")
@@ -50,6 +51,25 @@ export default function PutEvent({ route, navigation }) {
       )
       .required("vous devez spécifier une date de fin pour cet évènement"),
   })
+  const updateEventDetails = async (data) => {
+    setShowLoadingAnim(true)
+    try {
+      await axios.put(`${BaseUrl}/dzevents/v1/posts/${_id}`, data)
+      setShowLoadingAnim(false)
+      Alert.alert(
+        "bravo",
+        "vous avez mis à jour votre évènement avec succées 😃 "
+      )
+      navigation.navigate("WelcomeScreen")
+    } catch (e) {
+      console.log(e)
+      setShowLoadingAnim(false)
+      Alert.alert(
+        "oopss",
+        "une erreure est survenue veuillez réessayer dans un moment"
+      )
+    }
+  }
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <AppText style={styles.titre}>Modifier mon évènement</AppText>
@@ -91,6 +111,7 @@ export default function PutEvent({ route, navigation }) {
                 "oopss",
                 "une erreure est survenue veuillez réessayer dans un moment"
               )
+              setShowLoadingAnim(false)
             }
           }}>
           {!showLoadingAnim && (
@@ -194,6 +215,10 @@ export default function PutEvent({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
+  titre: {
+    color: Colors.primary,
+    fontSize: 20,
+  },
   description: {
     minHeight: 120,
     alignSelf: "center",

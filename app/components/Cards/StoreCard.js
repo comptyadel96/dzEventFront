@@ -1,18 +1,13 @@
 import React from "react"
-import {
-  Image,
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
-} from "react-native"
+import { Image, StyleSheet, View, TouchableWithoutFeedback } from "react-native"
 import AppScreen from "../AppScreen"
 import AppText from "../AppText"
 
-export default function StoreCard({ image, article, onPress }) {
+export default function StoreCard({ image, article, onPress, style }) {
   return (
     <AppScreen>
       <TouchableWithoutFeedback onPress={onPress}>
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
           {image ? (
             <Image
               source={{ uri: `${image.url}`.toString() }}
@@ -25,7 +20,7 @@ export default function StoreCard({ image, article, onPress }) {
             />
           )}
 
-          <AppText style={styles.title} numberOfLines={1} ellipsizeMode='tail'>
+          <AppText style={styles.title} numberOfLines={1} ellipsizeMode="tail">
             {article}
           </AppText>
         </View>
@@ -55,5 +50,4 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     textAlign: "center",
   },
-
 })

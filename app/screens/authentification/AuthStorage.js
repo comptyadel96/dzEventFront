@@ -5,7 +5,6 @@ const key = "x-auth-token"
 const storeToken = async (authToken) => {
   try {
     const token = await SecureStore.setItemAsync(key, authToken)
-    console.log("storeToken  ", authToken)
     return token
   } catch (e) {
     console.log("erreure lors de l'initialisation du authToken", e)

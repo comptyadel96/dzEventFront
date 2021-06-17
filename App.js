@@ -7,7 +7,7 @@ import AuthContext from "./app/screens/authentification/AuthContext"
 import AppLoading from "expo-app-loading"
 import AuthStorage from "./app/screens/authentification/AuthStorage"
 import axios from "axios"
-import RegisterCongratuation from "./app/screens/RegisterCongratuation"
+
 
 export default function App() {
   const [user, setUser] = useState()
@@ -37,7 +37,6 @@ export default function App() {
       <AuthContext.Provider value={{ user, setUser }}>
         <CheckInternet />
         <AppNavigation />
-        {/* <RegisterCongratuation/> */}
       </AuthContext.Provider>
     </AppScreen>
   )

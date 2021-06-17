@@ -45,7 +45,6 @@ export default function AccountScreen({ navigation }) {
 
       useEffect(() => {
         fetchProfilPicture()
-        console.log(user)
       }, [changeCount])
     }
   }

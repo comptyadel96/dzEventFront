@@ -29,6 +29,7 @@ import ClientFirstPubli from "../app/screens/Client/ClientFirstPubli"
 import PutEvent from "../app/screens/modifyPublications/PutEvent"
 import PutStore from "../app/screens/modifyPublications/PutStore"
 import PutFirstTime from "../app/screens/modifyPublications/PutFirstTime"
+import ViewEventImage from "../app/screens/ViewEventImage"
 
 export default function AppNavigation() {
   const { Navigator, Screen } = createStackNavigator()
@@ -132,11 +133,18 @@ export default function AppNavigation() {
           component={StoreDetailScreen}
           options={{ title: "details d'article", headerShown: false }}
         />
+        {/* view images */}
         <Screen
           name="ViewStoreImages"
           component={ViewStoreImages}
           options={{ headerShown: false }}
         />
+        <Screen
+          name="ViewEventImage"
+          component={ViewEventImage}
+          options={{ headerShown: false }}
+        />
+
         <Screen
           name="ClientEventsPubli"
           component={ClientEventsPubli}
@@ -167,6 +175,7 @@ export default function AppNavigation() {
           component={ClientFirstPubli}
           options={{ headerShown: false }}
         />
+
         {/* forms */}
         <Screen
           name="RegisterForm"
@@ -209,9 +218,10 @@ export default function AppNavigation() {
           component={PutStore}
           options={{ headerShown: false }}
         />
-        <Screen name="PutFirstTime" 
-         component={PutFirstTime}
-         options={{ headerShown: false }}
+        <Screen
+          name="PutFirstTime"
+          component={PutFirstTime}
+          options={{ headerShown: false }}
         />
       </Navigator>
     </NavigationContainer>

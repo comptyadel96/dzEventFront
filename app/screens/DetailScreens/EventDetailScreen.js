@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from "react"
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native"
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableWithoutFeedback,
+} from "react-native"
 import AppText from "../../components/AppText"
 import moment from "moment"
 import momentConfig from "../../config-momentJs/MomentJs"
@@ -28,13 +35,21 @@ export default function EventDetailScreen({ route, navigation }) {
   return (
     <ScrollView style={styles.container}>
       <View style={{ justifyContent: "center" }}>
-        <View style={styles.imageContainer}>
+        {/* image  */}
+        <TouchableWithoutFeedback
+          onPress={() => {
+            navigation.navigate("ViewEventImage", {
+              _id,
+              owner: owner._id,
+              eventImage: event.image,
+            })
+          }}>
           <Image
             source={{ uri: `${event.image}` }}
             style={styles.image}
             resizeMode="cover"
           />
-        </View>
+        </TouchableWithoutFeedback>
 
         <View style={styles.textContainer}>
           <AppText style={styles.title}>{event.titre}</AppText>
@@ -94,7 +109,7 @@ export default function EventDetailScreen({ route, navigation }) {
 
           {event.description ? (
             <View style={styles.description}>
-              <AppText style={styles.categorie}>
+              <AppText style={styles.textDescription}>
                 Description:{" "}
                 <Text style={styles.text}>{event.description}</Text>
               </AppText>
@@ -173,14 +188,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: Colors.lightgrey,
   },
-  imageContainer: {
-    paddingHorizontal: 8,
-    width: "100%",
-  },
+
   image: {
     width: "100%",
-    height: 250,
-    borderRadius: 2,
+    height: 290,
+    resizeMode: "cover",
   },
   textContainer: {
     padding: 10,
@@ -195,8 +207,8 @@ const styles = StyleSheet.create({
   },
   description: {
     backgroundColor: Colors.textInput,
-    minHeight: 100,
-    padding: 10,
+    // minHeight: 100,
+    padding: 5,
   },
   categorie: {
     color: Colors.secondary,
@@ -210,5 +222,9 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.grey,
     fontSize: 17,
+  },
+  textDescription: {
+    color: Colors.secondary,
+    marginLeft: 5,
   },
 })

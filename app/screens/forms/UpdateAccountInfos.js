@@ -24,9 +24,17 @@ export default function UpdateAccountInfos() {
   const updateDetails = async (data) => {
     try {
       await axios.put(`${BaseUrl}/dzevents/v1/users/updatedetails`, data)
+      Alert.alert(
+        "bravo",
+        "vous avez bien mis à jour vos informations personnelles 😎 "
+      )
       navigation.navigate("Profile")
     } catch (e) {
       console.log(e)
+      alert(
+        "une erreure est survenue vérifier votre connexion internet et réessayer dans un moment"
+      )
+      navigation.navigate("Profile")
     }
   }
 
@@ -161,6 +169,7 @@ export default function UpdateAccountInfos() {
               placeholder="nouveau mot de passe"
               secureTextEntry={hideNewPass}
             />
+
             <AppButton
               title="afficher"
               onPress={() => setHideNewPass(!hideNewPass)}
