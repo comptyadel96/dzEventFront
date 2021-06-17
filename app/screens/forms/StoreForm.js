@@ -27,7 +27,10 @@ const validationSchema = Yup.object().shape({
     )
     .max(100)
     .required("veuillez indiquer votre wilaya"),
-  storePics: Yup.array().max(5),
+  storePics: Yup.array()
+    .min(1, "veuiller séléctionner aumoins une photo svp")
+    .max(5)
+    .required("vous devez aumoins télécharger une image"),
   description: Yup.string().max(1024),
 })
 
@@ -63,6 +66,7 @@ export default function StoreForm({ navigation }) {
           formdata.append("prix", values.prix)
           formdata.append("wilaya", values.wilaya)
           formdata.append("description", values.description)
+         
           try {
             setProgressUpload(0)
             setVisible(true)
@@ -136,5 +140,13 @@ const styles = StyleSheet.create({
     width: 190,
     height: 40,
     backgroundColor: Colors.secondary,
+  },
+  images: {
+    width: 200,
+    height: 200,
+    marginHorizontal: 15,
+    marginVertical: 20,
+    resizeMode: "contain",
+    borderRadius: 25,
   },
 })

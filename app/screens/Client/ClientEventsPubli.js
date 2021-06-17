@@ -28,7 +28,7 @@ export default function ClientEventsPubli() {
   }, [])
   return (
     <View>
-      {clientEvents ? (
+      {clientEvents.length!==0 ? (
         <FlatList
           data={clientEvents}
           keyExtractor={(event) => event._id.toString()}

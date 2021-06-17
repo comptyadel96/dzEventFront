@@ -25,6 +25,7 @@ export default function EventForm({ navigation }) {
  
 
   const validationSchema = Yup.object().shape({
+    eventPic:Yup.string().required('vous devez selectionner une image').nullable().min(1) ,
     titre: Yup.string()
       .min(6, "le titre doit contenir au moins 6 lettres")
       .max(255)

@@ -221,8 +221,11 @@ export default function EventPublicationsScreen({ show = true }) {
           <AppText>Aucun évènement trouver pour " {searchEvent} "</AppText>
         )
       )}
-      {events.length===0 &&
-      <AppText style={{textAlign:"center"}}>Aucun évènement n'a été récament publier</AppText>}
+      {events.length === 0 && (
+        <AppText style={{ textAlign: "center" }}>
+          Aucun évènement n'a réçament été publier
+        </AppText>
+      )}
     </>
   )
 }

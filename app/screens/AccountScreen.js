@@ -170,7 +170,10 @@ export default function AccountScreen({ navigation }) {
             text="Article(s) publier sur le store "
             onPress={() => navigation.navigate("ClientStorePubli")}
           />
-          <ProfilPublication text="Ma premiére fois  " />
+          <ProfilPublication
+            text="Ma premiére fois  "
+            onPress={() => navigation.navigate("ClientFirstPubli")}
+          />
         </View>
       )}
 

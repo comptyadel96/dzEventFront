@@ -25,7 +25,9 @@ export default function FirstTimeForm({ navigation }) {
       .required("veuillez indiquer la wilaya s'il vous plait "),
     adresse: Yup.string().max(1024),
     description: Yup.string().max(1024),
-    firstTimePic: Yup.string(),
+    firstTimePic: Yup.string()
+      .nullable()
+      .required("veuillez télécharger aumoins une image svp"),
   })
 
   return (
@@ -42,6 +44,7 @@ export default function FirstTimeForm({ navigation }) {
           wilaya: "",
           adresse: "",
           firstTimePic: null,
+          description: "",
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
@@ -49,6 +52,7 @@ export default function FirstTimeForm({ navigation }) {
           formdata.append("titre", values.titre)
           formdata.append("wilaya", values.wilaya)
           formdata.append("adresse", values.adresse)
+          formdata.append("description", values.description)
           formdata.append("firstTimePic", {
             uri: values.firstTimePic,
             type: "image/jpg",
@@ -70,9 +74,33 @@ export default function FirstTimeForm({ navigation }) {
           }
         }}>
         <AppImagePicker name="firstTimePic" />
-        <AppFormField name="titre" placeholder="Titre" icon="new-box" />
-        <AppFormField name="wilaya" placeholder="Wilaya" icon="google-maps" />
-        <AppFormField name="adresse" placeholder="Adresse" icon="map-outline" />
+        <AppFormField
+          name="titre"
+          placeholder="Titre"
+          icon="new-box"
+          iconColor={Colors.gold}
+        />
+        <AppFormField
+          name="wilaya"
+          placeholder="Wilaya"
+          icon="google-maps"
+          iconColor={Colors.gold}
+        />
+        <AppFormField
+          name="adresse"
+          placeholder="Adresse"
+          icon="map-outline"
+          iconColor={Colors.gold}
+        />
+        <AppFormField
+          multiline
+          name="description"
+          style={styles.description}
+          placeholder="plus de details  ?"
+          autoCapitalize="none"
+          icon="sort-descending"
+          iconColor={Colors.gold}
+        />
         <ButtonSubmit title="Publier" style={styles.submitButton} />
       </AppForm>
     </View>
@@ -86,6 +114,10 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 15,
+  },
+  description: {
+    minHeight: 120,
+    alignSelf: "center",
   },
   submitButton: {
     backgroundColor: Colors.gold,

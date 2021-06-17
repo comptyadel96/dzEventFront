@@ -48,6 +48,7 @@ export default function StorePublicationScreen() {
     try {
       setArticle([])
       setLoading(true)
+      setPage(1)
       const result = await axios.get(
         `${BaseUrl}/dzevents/v1/store?page=${page}&limit=10`
       )

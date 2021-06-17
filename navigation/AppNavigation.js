@@ -25,6 +25,10 @@ import ClientEventsPubli from "../app/screens/Client/ClientEventsPubli"
 import UpdateAccountInfos from "../app/screens/forms/UpdateAccountInfos"
 import ClientStorePubli from "../app/screens/Client/ClientStorePubli"
 import RegisterCongratuation from "../app/screens/RegisterCongratuation"
+import ClientFirstPubli from "../app/screens/Client/ClientFirstPubli"
+import PutEvent from "../app/screens/modifyPublications/PutEvent"
+import PutStore from "../app/screens/modifyPublications/PutStore"
+import PutFirstTime from "../app/screens/modifyPublications/PutFirstTime"
 
 export default function AppNavigation() {
   const { Navigator, Screen } = createStackNavigator()
@@ -158,6 +162,11 @@ export default function AppNavigation() {
           component={Publier}
           options={{ headerShown: false }}
         />
+        <Screen
+          name="ClientFirstPubli"
+          component={ClientFirstPubli}
+          options={{ headerShown: false }}
+        />
         {/* forms */}
         <Screen
           name="RegisterForm"
@@ -189,6 +198,20 @@ export default function AppNavigation() {
           name="UpdateAccountInfos"
           component={UpdateAccountInfos}
           options={{ headerShown: false }}
+        />
+        <Screen
+          name="PutEvents"
+          component={PutEvent}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="PutStore"
+          component={PutStore}
+          options={{ headerShown: false }}
+        />
+        <Screen name="PutFirstTime" 
+         component={PutFirstTime}
+         options={{ headerShown: false }}
         />
       </Navigator>
     </NavigationContainer>

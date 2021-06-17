@@ -1,1 +1,1 @@
-export default BaseUrl ='https://dz-evenements.herokuapp.com'
+export default BaseUrl = "https://dz-evenements.herokuapp.com"

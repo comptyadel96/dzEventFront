@@ -4,6 +4,7 @@ import * as ImagePicker from "expo-image-picker"
 import { useFormikContext } from "formik"
 import AppLogo from "../../components/AppLogo"
 import Colors from "../../assets/Colors"
+import FormMessageError from "./FormMessageError"
 
 export default function AppImagePicker({
   name,
@@ -11,7 +12,7 @@ export default function AppImagePicker({
   isProfilPicture = false,
   isUpdatedImage = false,
 }) {
-  const { values, setFieldValue, handleSubmit } = useFormikContext()
+  const { values, setFieldValue, handleSubmit,errors,touched } = useFormikContext()
 
   const requestPermission = async () => {
     const { granted } = await ImagePicker.requestCameraPermissionsAsync()
@@ -57,9 +58,10 @@ export default function AppImagePicker({
           onPress={handlePickImage}
           size={100}
           backColor={Colors.textInput}
-          style={{ alignSelf: "center" }}
+          style={{ alignSelf: "center",marginTop:20 }}
         />
       )}
+      <FormMessageError errors={errors[name]} visible={touched[name]} />
     </View>
   )
 }
@@ -71,4 +73,5 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignSelf: "center",
   },
+ 
 })

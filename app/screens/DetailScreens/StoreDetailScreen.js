@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import {
   FlatList,
   Image,
@@ -17,10 +17,15 @@ import AppLogo from "../../components/AppLogo"
 import AppButton from "../../components/AppButton"
 import Colors from "../../assets/Colors"
 import BaseUrl from "../../assets/BaseUrl"
+import AuthContext from "../authentification/AuthContext"
+import AppForm from "../forms/AppForm"
+import EventImages from "../forms/EventImages"
+import axios from "axios"
 
 export default function StoreDetailScreen({ route }) {
   const abortControll = new AbortController()
   const navigation = useNavigation()
+  const { user } = useContext(AuthContext)
   const { _id, owner, profilePicture } = route.params
   const [article, setArticle] = useState([])
   const [photos, setPhotos] = useState([])
@@ -33,7 +38,7 @@ export default function StoreDetailScreen({ route }) {
       const result = await articleUrl.json()
       setArticle(result)
       setPhotos(result.photos)
-      // console.log(owner.profilePicture)
+    
     } catch (e) {
       console.log(e)
     }
@@ -53,7 +58,7 @@ export default function StoreDetailScreen({ route }) {
         color={Colors.primary}
       />
       <View style={styles.container}>
-        {photos ? (
+        <View style={styles.imagesContainer}>
           <FlatList
             data={photos}
             keyExtractor={(store) => store._id}
@@ -77,14 +82,39 @@ export default function StoreDetailScreen({ route }) {
             style={{
               minHeight: 230,
             }}
-            showsHorizontalScrollIndicator={false}
+            // showsHorizontalScrollIndicator={false}
           />
-        ) : (
-          <Image
-            source={require("../../assets/storeDefaultImage.jpg")}
-            style={styles.defaultImage}
-          />
-        )}
+          {/* si la publication appartient a celui qui la publier alors on lui affiche l'icone pour rajouter d'autres photos  */}
+          {user && user._id === owner._id && photos.length <= 4 && (
+            <AppForm
+              initialValues={{ storePics: [] }}
+              onSubmit={async (value) => {
+                const formdata = new FormData()
+                value.storePics.map((photo) =>
+                  formdata.append("storePics", {
+                    uri: photo,
+                    type: "image/jpg",
+                    name: photo,
+                  })
+                )
+                console.log(value)
+                try {
+                  await axios.patch(
+                    `${BaseUrl}/dzevents/v1/store/${_id}/pictures`,
+                    formdata
+                  )
+                  console.log(value)
+                } catch (e) {
+                  console.log(e)
+                  alert(
+                    "ooppss nos serveurs rencontrent quelques problémes en ce moment veuillez réessayer ulterierement"
+                  )
+                }
+              }}>
+              <EventImages name="storePics" isUpdateStore={true} />
+            </AppForm>
+          )}
+        </View>
 
         <AppText numberOfLines={2} ellipsizeMode="tail" style={styles.titre}>
           {article.article}
@@ -216,6 +246,21 @@ export default function StoreDetailScreen({ route }) {
               </View>
             )}
           </View>
+          {user && user._id === owner._id && (
+            <AppButton
+              title="modifier la publication"
+              style={{ height: 37, width: 200, alignSelf: "center" }}
+              color={Colors.purple}
+              onPress={() => {
+                navigation.navigate("PutStore", {
+                  _id,
+                  owner,
+                  article,
+                })
+                console.log(article)
+              }}
+            />
+          )}
         </ScrollView>
       </View>
     </>
@@ -227,6 +272,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  imagesContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
   images: {
     width: 200,

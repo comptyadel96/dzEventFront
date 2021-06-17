@@ -9,7 +9,7 @@ import Colors from "../../assets/Colors"
 import AuthContext from "../authentification/AuthContext"
 import AppButton from "../../components/AppButton"
 
-export default function FirstTimeDetailScreen({ route }) {
+export default function FirstTimeDetailScreen({ route, navigation }) {
   const authContext = useContext(AuthContext)
   const { _id, owner, photo } = route.params
   const [firstTime, setFirstTime] = useState([])
@@ -70,6 +70,14 @@ export default function FirstTimeDetailScreen({ route }) {
             title="Modifier la publication"
             style={styles.modifyButton}
             color={Colors.gold}
+            onPress={() =>
+              navigation.navigate("PutFirstTime", {
+                _id: _id,
+                owner: owner,
+                photo: photo,
+                firstTime:firstTime
+              })
+            }
           />
         )}
       </ScrollView>

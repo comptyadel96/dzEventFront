@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native"
 import AppText from "../../components/AppText"
 import moment from "moment"
@@ -6,8 +6,11 @@ import momentConfig from "../../config-momentJs/MomentJs"
 import Colors from "../../assets/Colors"
 import BaseUrl from "../../assets/BaseUrl"
 import AppLogo from "../../components/AppLogo"
+import AuthContext from "../authentification/AuthContext"
+import AppButton from "../../components/AppButton"
 
-export default function EventDetailScreen({ route }) {
+export default function EventDetailScreen({ route, navigation }) {
+  const { user } = useContext(AuthContext)
   const { _id, owner } = route.params
   moment.locale("Fr")
   const [event, setEvent] = useState([])
@@ -155,6 +158,14 @@ export default function EventDetailScreen({ route }) {
           </View>
         </View>
       </View>
+      {user && user._id === owner._id && (
+        <AppButton
+          title="modifier la publication"
+          onPress={() => navigation.navigate("PutEvents")}
+          style={{ width: 200, height: 35,alignSelf:"center" }}
+          color={Colors.purple}
+        />
+      )}
     </ScrollView>
   )
 }
@@ -202,6 +213,5 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.grey,
     fontSize: 17,
-    
   },
 })

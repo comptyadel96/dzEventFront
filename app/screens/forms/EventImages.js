@@ -10,15 +10,17 @@ import {
 import * as ImagePicker from "expo-image-picker"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { useFormikContext } from "formik"
+import FormMessageError from "./FormMessageError"
 
-export default function EventImages({ name }) {
-  const { setFieldValue, values } = useFormikContext([])
+export default function EventImages({ name, isUpdateStore = false }) {
+  const { setFieldValue, values, errors, touched, handleSubmit } =
+    useFormikContext([])
 
   const getPermission = async () => {
     const result = await ImagePicker.requestCameraPermissionsAsync()
     if (!result.granted) {
       alert(
-        "nous avons besoin d'accéder a votre gallerie pour télécharger les images,vous pourriez toujours modifier vos préférences dans les paramétres du téléphone pour autoriser l'application à accéder à votre position "
+        "nous avons besoin d'accéder a votre gallerie pour télécharger les images,vous pourriez toujours modifier vos préférences dans les paramétres du téléphone pour autoriser l'application à accéder la gallerie "
       )
     }
   }
@@ -53,6 +55,8 @@ export default function EventImages({ name }) {
               ...values[name],
               img.uri.replace("file://", ""),
             ])
+        // si on est dans le store details et l'utilisateur voudra ajouter une photo pour son article sans avoir à appuyer sur le submit bouton
+        isUpdateStore && handleSubmit()
       }
     } catch (e) {
       console.log(e)
@@ -79,9 +83,15 @@ export default function EventImages({ name }) {
             size={110}
             color="black"
             onPress={handlePickImage}
+            style={{ marginTop: 10, zIndex: 1, backgroundColor: "transparent" }}
           />
         )}
       </ScrollView>
+      <FormMessageError
+        errors={errors[name]}
+        visible={touched[name]}
+        style={{ position: "absolute", top: 0 }}
+      />
     </View>
   )
 }
@@ -93,6 +103,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     width: "auto",
     justifyContent: "center",
+    paddingVertical: 5,
   },
   image: {
     height: 120,

@@ -74,9 +74,10 @@ export default function WelcomeScreen({ navigation }) {
             visible
           />
         </View>
-        <AppText style={{ textAlign: "center",marginTop:15 }}>
-          bienvenue sur votre application préférée des évènements . 
-          commencer par voir les évènements disponibles ou bien publier le votre .
+        <AppText
+          style={{ textAlign: "center", marginTop: 15, color: "#3b1c1c" }}>
+          bienvenue sur votre application préférée d'évènements . commencer par
+          voir les évènements disponibles ou bien publier le votre .
         </AppText>
       </View>
     </AppScreen>
