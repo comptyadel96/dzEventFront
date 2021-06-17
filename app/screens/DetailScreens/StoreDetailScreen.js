@@ -21,6 +21,7 @@ import AuthContext from "../authentification/AuthContext"
 import AppForm from "../forms/AppForm"
 import EventImages from "../forms/EventImages"
 import axios from "axios"
+import LoadingAnim from "../../components/LoadingAnim"
 
 export default function StoreDetailScreen({ route }) {
   const abortControll = new AbortController()
@@ -29,6 +30,7 @@ export default function StoreDetailScreen({ route }) {
   const { _id, owner, profilePicture } = route.params
   const [article, setArticle] = useState([])
   const [photos, setPhotos] = useState([])
+  const [showLoadingAnim, setShowLoadingAnim] = useState(false)
 
   const fetchArticles = async () => {
     try {
@@ -38,7 +40,6 @@ export default function StoreDetailScreen({ route }) {
       const result = await articleUrl.json()
       setArticle(result)
       setPhotos(result.photos)
-    
     } catch (e) {
       console.log(e)
     }
@@ -46,7 +47,7 @@ export default function StoreDetailScreen({ route }) {
   useEffect(() => {
     fetchArticles()
     return () => abortControll.abort()
-  }, [photos])
+  }, [photos, photos.length])
 
   return (
     <>
@@ -59,60 +60,75 @@ export default function StoreDetailScreen({ route }) {
       />
       <View style={styles.container}>
         <View style={styles.imagesContainer}>
-          <FlatList
-            data={photos}
-            keyExtractor={(store) => store._id}
-            renderItem={({ item }) => (
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  navigation.navigate("ViewStoreImages", {
-                    imgUrl: item.url,
-                    img_id: item._id,
-                    article_id: _id,
-                    owner: owner._id,
-                  })
-                }}>
-                <Image
-                  source={{ uri: `${item.url.toString()}` }}
-                  style={styles.images}
-                />
-              </TouchableWithoutFeedback>
-            )}
-            horizontal={true}
-            style={{
-              minHeight: 230,
-            }}
-            // showsHorizontalScrollIndicator={false}
-          />
+          {!showLoadingAnim && (
+            <FlatList
+              data={photos}
+              keyExtractor={(store) => store._id}
+              renderItem={({ item }) => (
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    navigation.navigate("ViewStoreImages", {
+                      imgUrl: item.url,
+                      img_id: item._id,
+                      article_id: _id,
+                      owner: owner._id,
+                    })
+                  }}>
+                  <Image
+                    source={{ uri: `${item.url.toString()}` }}
+                    style={styles.images}
+                  />
+                </TouchableWithoutFeedback>
+              )}
+              horizontal={true}
+              style={{
+                minHeight: 230,
+              }}
+            />
+          )}
           {/* si la publication appartient a celui qui la publier alors on lui affiche l'icone pour rajouter d'autres photos  */}
           {user && user._id === owner._id && photos.length <= 4 && (
-            <AppForm
-              initialValues={{ storePics: [] }}
-              onSubmit={async (value) => {
-                const formdata = new FormData()
-                value.storePics.map((photo) =>
-                  formdata.append("storePics", {
-                    uri: photo,
-                    type: "image/jpg",
-                    name: photo,
-                  })
-                )
-                console.log(value)
-                try {
-                  await axios.patch(
-                    `${BaseUrl}/dzevents/v1/store/${_id}/pictures`,
-                    formdata
+            <View style={styles.updatePhotosContainer}>
+              <AppForm
+                initialValues={{ storePics: [] }}
+                onSubmit={async (value) => {
+                  const formdata = new FormData()
+                  value.storePics.map((photo) =>
+                    formdata.append("storePics", {
+                      uri: photo,
+                      type: "image/jpg",
+                      name: photo,
+                    })
                   )
-                  console.log(value)
-                } catch (e) {
-                  console.log(e)
-                  alert(
-                    "ooppss nos serveurs rencontrent quelques problémes en ce moment veuillez réessayer ulterierement"
-                  )
-                }
-              }}>
-              <EventImages name="storePics" isUpdateStore={true} />
-            </AppForm>
+                  try {
+                    setShowLoadingAnim(true)
+                    await axios.patch(
+                      `${BaseUrl}/dzevents/v1/store/${_id}/pictures`,
+                      formdata
+                    )
+                    setShowLoadingAnim(false)
+                  } catch (e) {
+                    console.log(e)
+                    alert(
+                      "ooppss on ne peut pas mettre à jour cet photo... veuillez réessayer ulterierement 😓 "
+                    )
+                  }
+                }}>
+                {/* anim pour le changement de la photo pour le store */}
+                {showLoadingAnim && (
+                  <View style={styles.animLoading}>
+                    <LoadingAnim
+                      visible={showLoadingAnim}
+                      source={require("../../assets/animations/loading-store.json")}
+                    />
+                  </View>
+                )}
+
+                {!showLoadingAnim && (
+                  <EventImages name="storePics" isUpdateStore={true} />
+                )}
+              </AppForm>
+            </View>
           )}
         </View>
 
@@ -326,5 +342,14 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
+  },
+  animLoading: {
+    height: 200,
+    width: "100%",
+  },
+  updatePhotosContainer: {
+    width: 153,
+    height: 122,
+    alignSelf: "center",
   },
 })

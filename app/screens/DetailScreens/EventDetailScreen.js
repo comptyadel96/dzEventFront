@@ -28,23 +28,14 @@ export default function EventDetailScreen({ route, navigation }) {
   return (
     <ScrollView style={styles.container}>
       <View style={{ justifyContent: "center" }}>
-        {event.image ? (
-          <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: `${event.image}` }}
-              style={styles.image}
-              resizeMode="cover"
-            />
-          </View>
-        ) : (
-          <View style={styles.imageContainer}>
-            <Image
-              source={require("../../assets/event4.jpg")}
-              style={styles.image}
-              resizeMode="cover"
-            />
-          </View>
-        )}
+        <View style={styles.imageContainer}>
+          <Image
+            source={{ uri: `${event.image}` }}
+            style={styles.image}
+            resizeMode="cover"
+          />
+        </View>
+
         <View style={styles.textContainer}>
           <AppText style={styles.title}>{event.titre}</AppText>
           <AppText style={styles.categorie}>
@@ -104,7 +95,7 @@ export default function EventDetailScreen({ route, navigation }) {
           {event.description ? (
             <View style={styles.description}>
               <AppText style={styles.categorie}>
-                Description:
+                Description:{" "}
                 <Text style={styles.text}>{event.description}</Text>
               </AppText>
             </View>
@@ -161,8 +152,14 @@ export default function EventDetailScreen({ route, navigation }) {
       {user && user._id === owner._id && (
         <AppButton
           title="modifier la publication"
-          onPress={() => navigation.navigate("PutEvents")}
-          style={{ width: 200, height: 35,alignSelf:"center" }}
+          onPress={() =>
+            navigation.navigate("PutEvents", {
+              _id,
+              owner,
+              event,
+            })
+          }
+          style={{ width: 200, height: 35, alignSelf: "center" }}
           color={Colors.purple}
         />
       )}

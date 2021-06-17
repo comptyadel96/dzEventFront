@@ -7,18 +7,22 @@ import BaseUrl from "../../assets/BaseUrl"
 import axios from "axios"
 import AppText from "../../components/AppText"
 import Colors from "../../assets/Colors"
+import LoadingAnim from "../../components/LoadingAnim"
 
 export default function FirstTimePublicationsScreen({ navigation }) {
   const [firstTimes, setFirstTimes] = useState([])
   const [page, setPage] = useState(1)
   const [refresh] = useState(false)
-
+  const [showLoadingAnim, setShowLoadingAnim] = useState(false)
   const fetchFirstTime = async () => {
     try {
+      setShowLoadingAnim(true)
       const first = await axios(
         `${BaseUrl}/dzevents/v1/firsttime?page=${page}&limit=10`
       )
       setFirstTimes([...firstTimes, ...first.data])
+      setShowLoadingAnim(false)
+      console.log(page)
     } catch (e) {
       console.log(e)
     }
@@ -29,7 +33,7 @@ export default function FirstTimePublicationsScreen({ navigation }) {
   }, [page])
 
   const fetchMoreData = () => {
-    setPage((prevPage) => prevPage + 1)
+    if (firstTimes.length > 3) setPage((prevPage) => prevPage + 1)
   }
   const handleRefresh = async () => {
     setFirstTimes([])
@@ -47,32 +51,42 @@ export default function FirstTimePublicationsScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <AppText style={styles.titre}>First Time</AppText>
-      <FlatList
-        data={firstTimes}
-        keyExtractor={(first) => first._id.toString()}
-        renderItem={({ item }) => (
-          <FirstTimeCard
-            titre={item.titre}
-            owner={item.owner}
-            imageUri={item.photo}
-            wilaya={item.wilaya}
-            createdAt={moment(item.createdAt).fromNow()}
-            onPress={() => {
-              navigation.navigate("FirstDetailsPublications", {
-                _id: item._id,
-                owner: item.owner,
-                photo: item.photo,
-              })
-              console.log(item.owner)
-            }}
+      {!showLoadingAnim && (
+        <FlatList
+          data={firstTimes}
+          keyExtractor={(first) => first._id.toString()}
+          renderItem={({ item }) => (
+            <FirstTimeCard
+              titre={item.titre}
+              owner={item.owner}
+              imageUri={item.photo}
+              wilaya={item.wilaya}
+              createdAt={moment(item.createdAt).fromNow()}
+              onPress={() => {
+                navigation.navigate("FirstDetailsPublications", {
+                  _id: item._id,
+                  owner: item.owner,
+                  photo: item.photo,
+                })
+              }}
+            />
+          )}
+          onEndReached={fetchMoreData}
+          onEndReachedThreshold={0.5}
+          refreshing={refresh}
+          onRefresh={handleRefresh}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
+      {/* // animation du chargement des firstTimes */}
+      {showLoadingAnim && (
+        <View style={styles.animation}>
+          <LoadingAnim
+            visible={true}
+            source={require("../../assets/animations/firstTime.json")}
           />
-        )}
-        onEndReached={fetchMoreData}
-        onEndReachedThreshold={0.5}
-        refreshing={refresh}
-        onRefresh={handleRefresh}
-        showsVerticalScrollIndicator={false}
-      />
+        </View>
+      )}
     </View>
   )
 }
@@ -87,5 +101,9 @@ const styles = StyleSheet.create({
     color: Colors.gold,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  animation: {
+    height: "100%",
+    width: "100%",
   },
 })

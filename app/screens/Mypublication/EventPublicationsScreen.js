@@ -51,10 +51,10 @@ export default function EventPublicationsScreen({ show = true }) {
     setEvent([])
     setSearchEvent("")
     setHasSearched(false)
+    setPage(1)
     const result = await fetch(
       `${BaseUrl}/dzevents/v1/posts?page=${page}&limit=10&categorie=${item}`
     )
-    setPage(1)
     const event = await result.json()
     setEvent(event)
   }
@@ -221,7 +221,7 @@ export default function EventPublicationsScreen({ show = true }) {
           <AppText>Aucun évènement trouver pour " {searchEvent} "</AppText>
         )
       )}
-      {events.length === 0 && (
+      {events.length === 0 && !events && (
         <AppText style={{ textAlign: "center" }}>
           Aucun évènement n'a réçament été publier
         </AppText>

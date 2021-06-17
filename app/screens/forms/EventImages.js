@@ -11,6 +11,7 @@ import * as ImagePicker from "expo-image-picker"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { useFormikContext } from "formik"
 import FormMessageError from "./FormMessageError"
+import Colors from "../../assets/Colors"
 
 export default function EventImages({ name, isUpdateStore = false }) {
   const { setFieldValue, values, errors, touched, handleSubmit } =
@@ -70,6 +71,7 @@ export default function EventImages({ name, isUpdateStore = false }) {
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {values[name] &&
+          !isUpdateStore &&
           values[name].map((imguri) => (
             <TouchableWithoutFeedback
               key={imguri}
@@ -83,7 +85,14 @@ export default function EventImages({ name, isUpdateStore = false }) {
             size={110}
             color="black"
             onPress={handlePickImage}
-            style={{ marginTop: 10, zIndex: 1, backgroundColor: "transparent" }}
+            style={{
+              marginTop: 5,
+              zIndex: 1,
+              backgroundColor: Colors.textInput,
+              height: 114,
+              marginLeft: 7,
+              paddingHorizontal:10
+            }}
           />
         )}
       </ScrollView>
@@ -103,6 +112,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     width: "auto",
     justifyContent: "center",
+    alignItems: "center",
     paddingVertical: 5,
   },
   image: {

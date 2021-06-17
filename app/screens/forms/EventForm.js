@@ -21,6 +21,7 @@ export default function EventForm({ navigation }) {
   const [visible, setVisible] = useState(false)
   const [progressUpload, setProgressUpload] = useState(0)
   const [showMap, setShowMap] = useState(false)
+
   const dateDebut = (Date.now() + 1000 * 60 * 60 * 1).valueOf()
  
 
@@ -96,14 +97,14 @@ export default function EventForm({ navigation }) {
             formdata.append("dateDebut", values.dateDebut)
             formdata.append("dateFin", values.dateFin)
             // formdata.append("geometry",(values.geometry))
-            console.log(values)
+           
             try {
               setProgressUpload(0)
               setVisible(true)
               await axios.post(`${BaseUrl}/dzevents/v1/posts`, formdata, {
                 onUploadProgress: (progress) =>
                   setProgressUpload(progress.loaded / progress.total),
-                  // headers:{"x-auth-token":""}
+                  
               })
               setVisible(false)
               navigation.navigate("WelcomeScreen")

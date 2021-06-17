@@ -10,9 +10,9 @@ export default function AppImagePicker({
   name,
   imgStyle,
   isProfilPicture = false,
-  isUpdatedImage = false,
 }) {
-  const { values, setFieldValue, handleSubmit,errors,touched } = useFormikContext()
+  const { values, setFieldValue, handleSubmit, errors, touched } =
+    useFormikContext()
 
   const requestPermission = async () => {
     const { granted } = await ImagePicker.requestCameraPermissionsAsync()
@@ -58,7 +58,7 @@ export default function AppImagePicker({
           onPress={handlePickImage}
           size={100}
           backColor={Colors.textInput}
-          style={{ alignSelf: "center",marginTop:20 }}
+          style={{ alignSelf: "center", marginTop: 20 }}
         />
       )}
       <FormMessageError errors={errors[name]} visible={touched[name]} />
@@ -73,5 +73,4 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignSelf: "center",
   },
- 
 })

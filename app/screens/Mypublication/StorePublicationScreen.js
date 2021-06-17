@@ -28,7 +28,6 @@ export default function StorePublicationScreen() {
       const storeArticles = await axios.get(
         `${BaseUrl}/dzevents/v1/store?page=${page}&limit=10`
       )
-
       setArticle([...article, ...storeArticles.data])
       setLoading(false)
     } catch (e) {
@@ -37,10 +36,12 @@ export default function StorePublicationScreen() {
   }
   useEffect(() => {
     fetchStoreItems()
-  }, [])
+  }, [page])
 
   const fetchMoreData = () => {
-    setPage((prevPage) => prevPage + 1)
+    if (article.length > 6) {
+      setPage((prevPage) => prevPage + 1)
+    }
     setHasSearched(false)
   }
 
@@ -52,11 +53,9 @@ export default function StorePublicationScreen() {
       const result = await axios.get(
         `${BaseUrl}/dzevents/v1/store?page=${page}&limit=10`
       )
-
-      setArticle([...article, ...result.data])
+      setArticle([...result.data])
       setLoading(false)
       setHasSearched(false)
-      console.log(result)
     } catch (error) {
       console.log(error)
     }
@@ -69,7 +68,6 @@ export default function StorePublicationScreen() {
     )
 
     const articles = await result.json()
-
     setArticle2(articles)
     setHasSearched(true)
   }
@@ -157,6 +155,7 @@ export default function StorePublicationScreen() {
                   navigation.navigate("DetailsArticles", {
                     _id: item._id,
                     owner: item.owner,
+                    profilePicture: item.owner.profilePicture,
                   })
                 }
               />

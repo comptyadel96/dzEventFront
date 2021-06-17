@@ -1,9 +1,8 @@
 import React from "react"
-import { StyleSheet, View } from "react-native"
+import { Alert, StyleSheet, View } from "react-native"
 import AppText from "../../components/AppText"
 import Colors from "../../assets/Colors"
 import AppForm from "../forms/AppForm"
-import EventImages from "../forms/EventImages"
 import AppFormField from "../forms/AppFormField"
 import ButtonSubmit from "../forms/ButtonSubmit"
 import * as Yup from "yup"
@@ -29,12 +28,14 @@ const validationSchema = Yup.object().shape({
 
   description: Yup.string().max(1024),
 })
-export default function PutStore({ route }) {
+export default function PutStore({ route, navigation }) {
   const { _id, article } = route.params
 
   const putStorePublication = async (data) => {
     try {
       await axios.put(`${BaseUrl}/dzevents/v1/store/${_id}`, data)
+      Alert.alert("bravo", "vous avez mis à jour votre article 😊 ")
+      navigation.goBack()
     } catch (e) {
       console.log(e)
       alert(
@@ -45,7 +46,7 @@ export default function PutStore({ route }) {
 
   return (
     <View style={styles.container}>
-      <AppText style={styles.title}>modifier ma publication</AppText>
+      <AppText style={styles.title}>modifier mon article</AppText>
 
       {/* form */}
       <AppForm
