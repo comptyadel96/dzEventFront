@@ -24,23 +24,14 @@ export default function EventCard({
     <ScrollView>
       <TouchableWithoutFeedback onPress={onPress}>
         <View style={styles.container}>
-          {imageUri ? (
-            <View style={{ backgroundColor: "transparent", borderRadius: 10 }}>
-              <Image
-                source={{ uri: `${imageUri}` }}
-                style={styles.image}
-                resizeMode="cover"
-              />
-            </View>
-          ) : (
-            <View style={{ backgroundColor: "transparent", borderRadius: 10 }}>
-              <Image
-                source={require("../../assets/event4.jpg")}
-                style={styles.image}
-                resizeMode="cover"
-              />
-            </View>
-          )}
+          <View style={{ backgroundColor: "transparent", borderRadius: 10 }}>
+            <Image
+              source={{ uri: `${imageUri}` }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          </View>
+
           <View style={styles.textContainer}>
             <AppText
               style={styles.title}

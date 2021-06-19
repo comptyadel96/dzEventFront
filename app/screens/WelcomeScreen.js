@@ -10,7 +10,7 @@ import LoadingAnim from "../components/LoadingAnim"
 export default function WelcomeScreen({ navigation }) {
   return (
     <AppScreen style={{ backgroundColor: "#F6F8F9", flex: 1 }}>
-      <AppText style={styles.grandTitre}>MOUNI</AppText>
+      <AppText style={styles.grandTitre}>MOUNI 🇩🇿 </AppText>
       <View style={styles.container}>
         <ScrollView
           horizontal
@@ -91,11 +91,10 @@ const styles = StyleSheet.create({
   },
   grandTitre: {
     position: "absolute",
-    color: Colors.white,
-    fontSize: 22,
-    fontWeight: "600",
+    color: Colors.primary,
+    fontSize: 27,
+    fontWeight: "bold",
     alignSelf: "center",
-    backgroundColor: Colors.primary,
     padding: 5,
     borderRadius: 10,
   },

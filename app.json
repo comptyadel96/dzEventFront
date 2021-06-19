@@ -1,21 +1,20 @@
 {
   "expo": {
-    "name": "dzEvenements",
-    "slug": "dzEvenements",
+    "name": "Mouni",
+    "slug": "Mouni",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icon.png",
+    "privacy": "public",
+    "icon": "./app/assets/app-icon.png",
     "splash": {
-      "image": "./app/assets/splash.png",
+      "image": "./app/assets/app-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

@@ -29,14 +29,8 @@ export default function FirstTimeDetailScreen({ route, navigation }) {
 
   return (
     <AppScreen style={styles.container}>
-      {photo ? (
-        <Image source={{ uri: `${firstTime.photo}` }} style={styles.photo} />
-      ) : (
-        <Image
-          source={require("../../assets/firstDefaultImage.png")}
-          style={styles.photo}
-        />
-      )}
+      <Image source={{ uri: `${firstTime.photo}` }} style={styles.photo} />
+
       <AppText style={styles.titre} numberOfLines={2} ellipsizeMode="tail">
         {firstTime.titre}
       </AppText>
@@ -75,7 +69,7 @@ export default function FirstTimeDetailScreen({ route, navigation }) {
                 _id: _id,
                 owner: owner,
                 photo: photo,
-                firstTime:firstTime
+                firstTime: firstTime,
               })
             }
           />

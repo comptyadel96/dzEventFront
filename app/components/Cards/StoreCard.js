@@ -8,17 +8,10 @@ export default function StoreCard({ image, article, onPress, style }) {
     <AppScreen>
       <TouchableWithoutFeedback onPress={onPress}>
         <View style={[styles.container, style]}>
-          {image ? (
-            <Image
-              source={{ uri: `${image.url}`.toString() }}
-              style={styles.image}
-            />
-          ) : (
-            <Image
-              source={require("../../assets/storeDefaultImage.jpg")}
-              style={styles.image}
-            />
-          )}
+          <Image
+            source={{ uri: `${image.url}`.toString() }}
+            style={styles.image}
+          />
 
           <AppText style={styles.title} numberOfLines={1} ellipsizeMode="tail">
             {article}

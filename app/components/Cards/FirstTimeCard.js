@@ -13,14 +13,8 @@ export default function FirstTimeCard({
 }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      {imageUri ? (
-        <Image source={{ uri: imageUri }} style={styles.image} />
-      ) : (
-        <Image
-          source={require("../../assets/firstDefaultImage.png")}
-          style={styles.image}
-        />
-      )}
+      <Image source={{ uri: imageUri }} style={styles.image} />
+
       <View style={styles.infosContainer}>
         <AppText style={styles.titre}> {titre} </AppText>
         <AppText style={styles.infos}>
