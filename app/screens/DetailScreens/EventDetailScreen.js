@@ -19,7 +19,6 @@ import AppButton from "../../components/AppButton"
 export default function EventDetailScreen({ route, navigation }) {
   const { user } = useContext(AuthContext)
   const { _id, owner } = route.params
-  moment.locale("Fr")
   const [event, setEvent] = useState([])
 
   const fetchEvent = async () => {
