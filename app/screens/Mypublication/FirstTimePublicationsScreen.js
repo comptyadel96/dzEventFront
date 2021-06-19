@@ -22,7 +22,6 @@ export default function FirstTimePublicationsScreen({ navigation }) {
       )
       setFirstTimes([...firstTimes, ...first.data])
       setShowLoadingAnim(false)
-      console.log(page)
     } catch (e) {
       console.log(e)
     }
