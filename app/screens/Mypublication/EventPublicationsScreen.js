@@ -15,7 +15,7 @@ import LoadingAnim from "../../components/LoadingAnim"
 
 export default function EventPublicationsScreen({ show = true }) {
   const navigation = useNavigation()
-  moment.locale("Fr")
+  // moment.locale("Fr")
   const [events, setEvent] = useState([])
   const [events2, setEvent2] = useState([])
   const [page, setPage] = useState(1)

@@ -13,7 +13,7 @@ import axios from "axios"
 
 export default function StorePublicationScreen() {
   const navigation = useNavigation()
-  moment.locale("Fr")
+  // moment.locale("Fr")
   const [article, setArticle] = useState([])
   const [article2, setArticle2] = useState([])
   const [page, setPage] = useState(1)
