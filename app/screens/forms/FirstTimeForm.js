@@ -66,6 +66,10 @@ export default function FirstTimeForm({ navigation }) {
                 setProgressUpload(progress.loaded / progress.total),
             })
             setVisible(false)
+            Alert.alert(
+              "Bravo",
+              "votre first Time a été créer avec succées 😎 "
+            )
             navigation.navigate("WelcomeScreen")
           } catch (e) {
             console.log(e)

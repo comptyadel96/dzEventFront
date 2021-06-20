@@ -6,7 +6,7 @@ white:'#F7F7F7',
 secondary:'#5BB9FF',
 dark:'#2B1B1F',
 textInput:"#EEEEEE",
-gold:'#EFCB27',
+gold:'#ffd063',
 pistach:'#54D67E',
 purple:'#6D27EF',
 pink:'#EF27A9'

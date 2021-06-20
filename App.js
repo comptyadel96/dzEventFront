@@ -9,7 +9,6 @@ import AuthStorage from "./app/screens/authentification/AuthStorage"
 import axios from "axios"
 import Test from "./Test"
 
-
 export default function App() {
   const [user, setUser] = useState()
   const [isAppReady, setIsAppReady] = useState(false)
@@ -39,7 +38,6 @@ export default function App() {
         <CheckInternet />
         <AppNavigation />
       </AuthContext.Provider>
-      {/* <Test/> */}
     </AppScreen>
   )
 }
