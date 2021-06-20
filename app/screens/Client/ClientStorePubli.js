@@ -29,7 +29,7 @@ export default function ClientStorePubli() {
   return (
     <View style={styles.container}>
       <AppText style={styles.titre}>Mes articles sur le store </AppText>
-      {clientStore && clientStore.length > 0 ? (
+      {clientStore ? (
         <View style={styles.articleContainer}>
           <FlatList
             data={clientStore}
@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   articleContainer: {
+    flex: 1,
     width: "100%",
+    marginVertical: 5,
   },
 })

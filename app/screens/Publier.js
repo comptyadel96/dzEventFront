@@ -1,59 +1,95 @@
 import React, { useContext } from "react"
-import { StyleSheet, View } from "react-native"
-import Colors from "../assets/Colors"
-import AppButton from "../components/AppButton"
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  ScrollView,
+} from "react-native"
 import AppText from "../components/AppText"
-import { FontAwesome } from "@expo/vector-icons"
+import { LinearGradient } from "expo-linear-gradient"
+import { Fontisto, AntDesign, FontAwesome } from "@expo/vector-icons"
 import AuthContext from "./authentification/AuthContext"
 import RegisterOrLogin from "./authentification/RegisterOrLogin"
+import Colors from "../assets/Colors"
 
 export default function Publier({ navigation }) {
-  
   const { user } = useContext(AuthContext)
   return (
     <View style={styles.container}>
-      {user && <FontAwesome name="calendar-plus-o" size={50} color="grey" />}
-      {user && <AppText style={styles.titre}>Publications</AppText>}
-
       {user ? (
-        <View style={styles.publications}>
-          <AppButton
-            title=" Le store +"
-            onPress={() => navigation.navigate("StoreForm")}
-            style={styles.buttons}
-            color={Colors.secondary}
-            logo="cart-plus"
-            logoColor="white"
-            backColor="transparent"
-          />
-          <AppButton
-            title=" Un évènement +"
-            onPress={() => navigation.navigate("EventForm")}
-            style={styles.buttons}
-            color={Colors.primary}
-            logo="airballoon-outline"
-            logoColor="white"
-            backColor="transparent"
-          />
-          <AppButton
-            title="Section premiére fois +"
-            onPress={() => navigation.navigate("FirstTimeForm")}
-            style={styles.buttons}
-            color={Colors.gold}
-            logo="home-floor-1"
-            logoColor="white"
-            backColor="transparent"
-          />
-        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ width: "100%" }}>
+          <AppText style={styles.titre}>Publications</AppText>
+          {/* store card */}
+          <TouchableWithoutFeedback>
+            <LinearGradient
+              colors={["#051937", "#052d60", "#04438c", "#065aba", "#1271eb"]}
+              style={styles.storePub}>
+              <Fontisto name="shopping-store" size={54} color="white" />
+              <Text style={styles.cardTitle}>Le store</Text>
+              <Text style={styles.text}>
+                Publier un article sur le store pour aider les organisateur à
+                bien faire dérouler leurs évènements ...it's all about money 💰
+              </Text>
+              <AntDesign
+                name="rightcircleo"
+                size={36}
+                color="white"
+                style={styles.icon}
+                onPress={() => navigation.navigate("StoreForm")}
+              />
+            </LinearGradient>
+          </TouchableWithoutFeedback>
+
+          {/*  events card */}
+          <TouchableWithoutFeedback>
+            <LinearGradient
+              colors={["#051937", "#3c2458", "#7d2165", "#ba195a", "#e53838"]}
+              style={styles.storePub}>
+              <AntDesign name="calendar" size={54} color="white" />
+              <Text style={styles.cardTitle2}>Evènement</Text>
+              <Text style={styles.text}>
+                Publier votre propre évènement,attirez le plus de monde que
+                possible et faite le briller , soyez de ceux qui apportent le
+                fun au autres 😎
+              </Text>
+              <AntDesign
+                name="rightcircleo"
+                size={36}
+                color="white"
+                style={styles.icon}
+                onPress={() => navigation.navigate("EventForm")}
+              />
+            </LinearGradient>
+          </TouchableWithoutFeedback>
+          {/* firstTime card */}
+          {!user.firstTimePublished && (
+            <TouchableWithoutFeedback>
+              <LinearGradient
+                colors={["#051937", "#643365", "#c54d6a", "#ff8c4e", "#ffe53d"]}
+                style={styles.storePub}>
+                <FontAwesome name="fire" size={54} color="white" />
+                <Text style={styles.cardTitle3}>FirstTime</Text>
+                <Text style={styles.text}>
+                  Chaque chose a un début et une fin ....on s'en fous de la fin
+                  😁 faite leurs découvrir votre nouveau projet/ commerce /
+                  start-up 🔥
+                </Text>
+                <AntDesign
+                  name="rightcircleo"
+                  size={36}
+                  color="white"
+                  style={styles.icon}
+                  onPress={() => navigation.navigate("FirstTimeForm")}
+                />
+              </LinearGradient>
+            </TouchableWithoutFeedback>
+          )}
+        </ScrollView>
       ) : (
         <RegisterOrLogin />
-      )}
-      {user && (
-        <AppText style={styles.description}>
-          <FontAwesome name="info-circle" size={20} color={Colors.primary} />{" "}
-          Publier un évènement organisé ,un article à mettre en vente ,ou bien
-          tous simplement une ouverture d'un nouveau commerce/ start-up etc...
-        </AppText>
       )}
     </View>
   )
@@ -61,42 +97,51 @@ export default function Publier({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: "center",
+    padding: 20,
     flex: 1,
-    alignItems: "center",
+    backgroundColor: "#f2f2f2",
   },
-  titre: { color: Colors.primary, marginTop: 15, fontSize: 30 },
-  publications: {
-    backgroundColor: Colors.textInput,
+  titre: {
+    color: Colors.primary,
+    fontSize: 25,
+    alignSelf: "center",
+    marginBottom: 15,
+  },
+  storePub: {
     width: "100%",
-    height: "40%",
-    borderRadius: 20,
-    marginBottom: 80,
-    marginTop: 30,
-    display: "flex",
-    justifyContent: "space-evenly",
+    height: 260,
     alignItems: "center",
-  },
-  buttons: {
-    width: "auto",
-    height: 35,
-    borderRadius: 5,
-    marginVertical: 5,
-    // backgroundColor: Colors.primary,
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    // justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    width: "100%",
-  },
-  description: {
-    color: "grey",
-    // textAlign: "center",
-    backgroundColor: Colors.textInput,
-    marginHorizontal: 15,
-    borderRadius: 10,
     padding: 10,
+    position: "relative",
+    borderRadius: 7,
+    marginBottom: 14,
+  },
+  cardTitle: {
+    color: "#4eb1ff",
+    fontSize: 22,
+    marginVertical: 7,
+  },
+  cardTitle2: {
+    fontSize: 22,
+    marginVertical: 7,
+    color: "#ff6b6b",
+  },
+  cardTitle3: {
+    color: "#ffcf7b",
+    fontSize: 22,
+    marginVertical: 7,
+  },
+  text: {
+    color: "white",
+    padding: 8,
+    backgroundColor: "rgba(255, 255, 255,0.15)",
+    borderRadius: 7,
+    fontSize: 17,
+  },
+
+  icon: {
+    position: "absolute",
+    bottom: 14,
   },
 })

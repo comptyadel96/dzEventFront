@@ -78,19 +78,19 @@ export default function FirstTimeForm({ navigation }) {
           name="titre"
           placeholder="Titre"
           icon="new-box"
-          iconColor={Colors.gold}
+          iconColor={Colors.dark}
         />
         <AppFormField
           name="wilaya"
           placeholder="Wilaya"
           icon="google-maps"
-          iconColor={Colors.gold}
+          iconColor={Colors.dark}
         />
         <AppFormField
           name="adresse"
           placeholder="Adresse"
           icon="map-outline"
-          iconColor={Colors.gold}
+          iconColor={Colors.dark}
         />
         <AppFormField
           multiline
@@ -99,7 +99,7 @@ export default function FirstTimeForm({ navigation }) {
           placeholder="plus de details  ?"
           autoCapitalize="none"
           icon="sort-descending"
-          iconColor={Colors.gold}
+          iconColor={Colors.dark}
         />
         <ButtonSubmit title="Publier" style={styles.submitButton} />
       </AppForm>

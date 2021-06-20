@@ -7,6 +7,7 @@ import AuthContext from "./app/screens/authentification/AuthContext"
 import AppLoading from "expo-app-loading"
 import AuthStorage from "./app/screens/authentification/AuthStorage"
 import axios from "axios"
+import Test from "./Test"
 
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
         <CheckInternet />
         <AppNavigation />
       </AuthContext.Provider>
+      {/* <Test/> */}
     </AppScreen>
   )
 }
