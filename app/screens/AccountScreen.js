@@ -105,11 +105,12 @@ export default function AccountScreen({ navigation }) {
                   <AppImagePicker
                     name="profilePic"
                     imgStyle={styles.newProfilPic}
+                    isProfilPicture={true}
                   />
-                  <ButtonSubmit
+                  {/* <ButtonSubmit
                     title="confirmer la photo"
                     style={{ width: 200, alignSelf: "center", height: 40 }}
-                  />
+                  /> */}
                 </AppForm>
               </Modal>
 

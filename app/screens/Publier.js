@@ -17,7 +17,7 @@ export default function Publier({ navigation }) {
   const { user } = useContext(AuthContext)
   return (
     <LinearGradient
-      colors={["#ffe6c6", "#ffe3d8", "#FFCDFF", "#f2e9f0", "#ececec"]}
+      colors={["#dee8ff", "#e9e6fc", "#f3e4f7", "#fbe3f0", "#ffe3e9"]}
       style={styles.container}>
       {user ? (
         <ScrollView
