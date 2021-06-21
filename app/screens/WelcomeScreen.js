@@ -22,43 +22,45 @@ export default function WelcomeScreen({ navigation }) {
               title="Evénements"
               text={styles.textButton}
               logo="airballoon"
-              logoColor={Colors.primary}
+              logoColor={Colors.white}
               backColor="transparent"
+              color={Colors.primary}
               size={50}
               onPress={() => {
                 navigation.navigate("AllEvents")
               }}
             />
-
+            <AppButton
+              title="Store"
+              style={styles.menuItem}
+              text={styles.textButton}
+              logo="shopping"
+              logoColor={Colors.white}
+              backColor="transparent"
+              color={Colors.secondary}
+              size={58}
+              onPress={() => {
+                navigation.navigate("AllArticles")
+              }}
+            />
             <AppButton
               style={styles.menuItem}
               text={styles.textButton}
               title="Calendrier"
               logo="calendar-text"
-              logoColor="black"
+              logoColor="white"
+              color="#444444"
               backColor="transparent"
               size={50}
               onPress={() => navigation.navigate("Calendar")}
             />
 
             <AppButton
-              title="Store"
+              title="first-time"
               style={styles.menuItem}
               text={styles.textButton}
-              logo="shopping"
-              logoColor={Colors.secondary}
-              backColor="transparent"
-              size={58}
-              onPress={() => {
-                navigation.navigate("AllArticles")
-              }}
-            />
-
-            <AppButton
-              title="1iére fois"
-              style={styles.menuItem}
-              text={styles.textButton}
-              logoColor={Colors.gold}
+              logoColor={Colors.white}
+              color={Colors.gold}
               backColor="transparent"
               logo="numeric-1-box"
               size={50}
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
     width: 130,
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: "#ECECEC",
+    // backgroundColor: "#ECECEC",
     margin: 9,
     padding: 3,
     paddingRight: 0,
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
   },
 
   textButton: {
-    color: "black",
+    color: "white",
     fontSize: 13,
     flex: 1,
   },

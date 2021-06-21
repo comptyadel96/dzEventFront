@@ -89,7 +89,7 @@ export default function RegisterOrLogin() {
           icon="key-variant"
           secureTextEntry
         />
-        <TouchableOpacity style={{ alignSelf: "flex-end", marginRight: 75 }}>
+        {/* <TouchableOpacity style={{ alignSelf: "flex-end", marginRight: 75 }}>
           <AppText
             style={{
               color: Colors.primary,
@@ -99,7 +99,7 @@ export default function RegisterOrLogin() {
             }}>
             mot de passe oublier ?
           </AppText>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <ButtonSubmit title="Se connecter" style={styles.submitButton} />
       </AppForm>
 
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   newAccount: {
-    height: 30,
+    height: 35,
     backgroundColor: Colors.secondary,
-    borderRadius: 5,
+    borderRadius: 25,
   },
 })
