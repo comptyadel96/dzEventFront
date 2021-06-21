@@ -7,10 +7,10 @@ import AppForm from "./AppForm"
 import axios from "axios"
 require("yup-password")(Yup)
 import BaseUrl from "../../assets/BaseUrl"
-import AppImagePicker from "./AppImagePicker"
 import AuthContext from "../authentification/AuthContext"
 import jwtDecode from "jwt-decode"
 import LoadingAnim from "../../components/LoadingAnim"
+import FormMessageError from "./FormMessageError"
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -51,6 +51,7 @@ const validationSchema = Yup.object().shape({
 export default function RegisterForm({ navigation }) {
   const { setUser } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
+  const [registerError, setRegisterError] = useState(false)
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -95,8 +96,12 @@ export default function RegisterForm({ navigation }) {
               setUser(jwtToken)
               setLoading(false)
               navigation.replace("RegisterCongrat")
+              setRegisterError(false)
             } catch (e) {
-              console.log(e)
+              if (e.response.data === "cet email a déja été utiliser") {
+                setRegisterError(true)
+              }
+              setLoading(false)
             }
           }}
           validationSchema={validationSchema}>
@@ -114,6 +119,10 @@ export default function RegisterForm({ navigation }) {
             keyboardType="email-address"
             style={styles.input}
             name="email"
+          />
+          <FormMessageError
+            errors="cet adresse email a déja été utilser"
+            visible={registerError}
           />
           <AppFormField
             autoCapitalize="none"
