@@ -115,10 +115,12 @@ export default function UpdateAccountInfos() {
             name: user.name,
             email: user.email,
             phoneNumber: user.phoneNumber,
+            firstTimePublished: user.firstTimePublished,
           }}
           onSubmit={async (values) => {
             updateDetails(values)
             setUser(values)
+            
           }}>
           <AppFormField name="name" placeholder={user.name.toString()} />
           <AppFormField name="email" placeholder={user.email.toString()} />

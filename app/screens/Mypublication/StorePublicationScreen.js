@@ -115,6 +115,7 @@ export default function StorePublicationScreen() {
                 image={item.photos[0]}
                 createdAt={moment(item.createdAt).fromNow()}
                 owner={item.owner}
+                style={{alignSelf:"center"}}
                 onPress={() => {
                   navigation.navigate("DetailsArticles", {
                     _id: item._id,

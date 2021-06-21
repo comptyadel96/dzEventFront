@@ -30,6 +30,7 @@ export default function AccountScreen({ navigation }) {
   const [profilPic, setProfilPic] = useState()
   const [changeCount, setCountChange] = useState(0)
   const [showpicAnimation, setShowPicAnimation] = useState(false)
+  const [userInfos, setUserInfos] = useState()
 
   // le hook useEffect et la fonction fetchProfilPicture prendra effet seulment et si seulment on s'est connecté à notre compte
   {
@@ -38,6 +39,8 @@ export default function AccountScreen({ navigation }) {
         try {
           const userPic = await axios.get(`${BaseUrl}/dzevents/v1/users/me`)
           setProfilPic(userPic.data.profilePicture)
+          setUserInfos(userPic.data)
+          setCountChange((prevCount) => prevCount + 1)
         } catch (e) {
           console.log(e)
         }
@@ -66,6 +69,9 @@ export default function AccountScreen({ navigation }) {
                   color={Colors.grey}
                   onPress={() => setShowModal(false)}
                 />
+                <AppText style={{ textAlign: "center", color: "grey" }}>
+                  Modifer votre photo de profile
+                </AppText>
                 {/* animation quand l'utilisateur change sa photo de profile */}
                 <LoadingAnim
                   source={require("../assets/animations/profilPicDone.json")}
@@ -138,11 +144,11 @@ export default function AccountScreen({ navigation }) {
             </AppForm>
           )}
 
-          {user && (
+          {userInfos && (
             <View style={styles.nameEmail}>
-              <AppText> {user.name} </AppText>
+              <AppText> {userInfos.name} </AppText>
               <AppText style={{ color: "grey", fontSize: 15 }}>
-                {user.email}
+                {userInfos.email}
               </AppText>
             </View>
           )}

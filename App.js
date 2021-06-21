@@ -7,7 +7,7 @@ import AuthContext from "./app/screens/authentification/AuthContext"
 import AppLoading from "expo-app-loading"
 import AuthStorage from "./app/screens/authentification/AuthStorage"
 import axios from "axios"
-import Test from "./Test"
+
 
 export default function App() {
   const [user, setUser] = useState()
@@ -17,7 +17,6 @@ export default function App() {
     try {
       const userInfo = await AuthStorage.setUser()
       if (userInfo) setUser(userInfo)
-
       axios.defaults.headers.common["x-auth-token"] =
         await AuthStorage.getToken()
     } catch (e) {

@@ -16,7 +16,9 @@ import Colors from "../assets/Colors"
 export default function Publier({ navigation }) {
   const { user } = useContext(AuthContext)
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#ffe6c6", "#ffe3d8", "#FFCDFF", "#f2e9f0", "#ececec"]}
+      style={styles.container}>
       {user ? (
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -68,7 +70,7 @@ export default function Publier({ navigation }) {
           {!user.firstTimePublished && (
             <TouchableWithoutFeedback>
               <LinearGradient
-                colors={["#051937", "#643365", "#c54d6a", "#ff8c4e", "#ffe53d"]}
+                colors={["#051937", "#593160", "#ae496b", "#ec785b", "#ffc04a"]}
                 style={styles.storePub}>
                 <FontAwesome name="fire" size={54} color="white" />
                 <Text style={styles.cardTitle3}>FirstTime</Text>
@@ -91,7 +93,7 @@ export default function Publier({ navigation }) {
       ) : (
         <RegisterOrLogin />
       )}
-    </View>
+    </LinearGradient>
   )
 }
 
@@ -100,11 +102,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
     flex: 1,
-    backgroundColor: "#f2f2f2",
+    height: "100%",
+    // backgroundColor: "#f2f2f2",
+    backgroundColor: Colors.primary,
   },
   titre: {
     color: Colors.primary,
     fontSize: 25,
+    fontWeight: "bold",
     alignSelf: "center",
     marginBottom: 15,
   },
@@ -115,7 +120,7 @@ const styles = StyleSheet.create({
     padding: 10,
     position: "relative",
     borderRadius: 7,
-    marginBottom: 14,
+    marginBottom: 24,
   },
   cardTitle: {
     color: "#4eb1ff",
